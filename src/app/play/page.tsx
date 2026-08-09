@@ -1,14 +1,43 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Handoff } from "@/components/Handoff";
+import { HouseBuilder } from "@/components/HouseBuilder";
+import { PartnerConsolidatedResults } from "@/components/PartnerConsolidatedResults";
+import { PartnerScaleResults } from "@/components/PartnerScaleResults";
+import { PassDevice } from "@/components/PassDevice";
 import { ResultsView } from "@/components/ResultsView";
 import { SwipeDeck } from "@/components/SwipeDeck";
+import { TherapistNotes } from "@/components/TherapistNotes";
 import { getCards } from "@/lib/content";
 import { buildReport } from "@/lib/report";
-import type { Answers, Report, SwipeValue } from "@/lib/types";
+import { scoreAllDimensions } from "@/lib/scoring";
+import type {
+  Answers,
+  DimensionId,
+  HouseFloor,
+  Report,
+  SwipeValue,
+} from "@/lib/types";
 
-type Phase = "nameA" | "swipeA" | "handoff" | "nameB" | "swipeB" | "results";
+type Phase =
+  | "nameA"
+  | "swipeA"
+  | "passTherapistA1"
+  | "soloResultsA"
+  | "houseA"
+  | "passTherapistA2"
+  | "consolidatedA"
+  | "notesA"
+  | "passPartnerB"
+  | "nameB"
+  | "swipeB"
+  | "passTherapistB1"
+  | "soloResultsB"
+  | "houseB"
+  | "passTherapistB2"
+  | "consolidatedB"
+  | "notesB"
+  | "results";
 
 export default function PlayPage() {
   const cards = useMemo(() => getCards(), []);
@@ -20,9 +49,29 @@ export default function PlayPage() {
   const [answersB, setAnswersB] = useState<Answers>({});
   const [historyA, setHistoryA] = useState<string[]>([]);
   const [historyB, setHistoryB] = useState<string[]>([]);
+  const [houseA, setHouseA] = useState<Record<DimensionId, HouseFloor> | null>(
+    null,
+  );
+  const [houseB, setHouseB] = useState<Record<DimensionId, HouseFloor> | null>(
+    null,
+  );
+  const [notesA, setNotesA] = useState("");
+  const [notesB, setNotesB] = useState("");
   const [report, setReport] = useState<Report | null>(null);
 
-  const activeAnswers = phase === "swipeA" ? answersA : answersB;
+  const displayA = nameA.trim() || "Partner A";
+  const displayB = nameB.trim() || "Partner B";
+
+  const scoresA = useMemo(
+    () => scoreAllDimensions(cards, answersA),
+    [cards, answersA],
+  );
+  const scoresB = useMemo(
+    () => scoreAllDimensions(cards, answersB),
+    [cards, answersB],
+  );
+
+  const swiping = phase === "swipeA" || phase === "swipeB";
   const activeHistory = phase === "swipeA" ? historyA : historyB;
   const index = activeHistory.length;
   const card = cards[index];
@@ -34,7 +83,7 @@ export default function PlayPage() {
       const hist = [...historyA, card.id];
       setAnswersA(next);
       setHistoryA(hist);
-      if (hist.length >= cards.length) setPhase("handoff");
+      if (hist.length >= cards.length) setPhase("passTherapistA1");
       return;
     }
     if (phase === "swipeB") {
@@ -42,17 +91,7 @@ export default function PlayPage() {
       const hist = [...historyB, card.id];
       setAnswersB(next);
       setHistoryB(hist);
-      if (hist.length >= cards.length) {
-        const built = buildReport({
-          cards,
-          partnerAName: nameA,
-          partnerBName: nameB,
-          answersA,
-          answersB: next,
-        });
-        setReport(built);
-        setPhase("results");
-      }
+      if (hist.length >= cards.length) setPhase("passTherapistB1");
     }
   }
 
@@ -75,6 +114,24 @@ export default function PlayPage() {
     }
   }
 
+  function finishCouple(finalNotesB: string) {
+    if (!houseA || !houseB) return;
+    const built = buildReport({
+      cards,
+      partnerAName: nameA,
+      partnerBName: nameB,
+      answersA,
+      answersB,
+      houseA,
+      houseB,
+      notesA,
+      notesB: finalNotesB,
+    });
+    setNotesB(finalNotesB);
+    setReport(built);
+    setPhase("results");
+  }
+
   return (
     <main className="mx-auto min-h-dvh max-w-lg px-6 py-10">
       {(phase === "nameA" || phase === "nameB") && (
@@ -86,7 +143,9 @@ export default function PlayPage() {
           <input
             value={phase === "nameA" ? nameA : nameB}
             onChange={(e) =>
-              phase === "nameA" ? setNameA(e.target.value) : setNameB(e.target.value)
+              phase === "nameA"
+                ? setNameA(e.target.value)
+                : setNameB(e.target.value)
             }
             placeholder="Optional name"
             className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-[var(--accent)]"
@@ -101,7 +160,7 @@ export default function PlayPage() {
         </section>
       )}
 
-      {(phase === "swipeA" || phase === "swipeB") && card && (
+      {swiping && card && (
         <SwipeDeck
           card={card}
           index={index}
@@ -112,10 +171,117 @@ export default function PlayPage() {
         />
       )}
 
-      {phase === "handoff" && (
-        <Handoff
-          fromName={nameA.trim() || "Partner A"}
+      {phase === "passTherapistA1" && (
+        <PassDevice
+          body="Hand the screen to the therapist for Partner one’s swipe results."
+          continueLabel="I’m the therapist"
+          onContinue={() => setPhase("soloResultsA")}
+        />
+      )}
+
+      {phase === "soloResultsA" && (
+        <PartnerScaleResults
+          partnerName={displayA}
+          scores={scoresA}
+          onContinue={() => setPhase("houseA")}
+        />
+      )}
+
+      {phase === "houseA" && (
+        <HouseBuilder
+          partnerName={displayA}
+          onComplete={(house) => {
+            setHouseA(house);
+            setPhase("passTherapistA2");
+          }}
+        />
+      )}
+
+      {phase === "passTherapistA2" && (
+        <PassDevice
+          body="Hand the screen back to the therapist for the consolidated view."
+          continueLabel="I’m the therapist"
+          onContinue={() => setPhase("consolidatedA")}
+        />
+      )}
+
+      {phase === "consolidatedA" && houseA && (
+        <PartnerConsolidatedResults
+          partnerName={displayA}
+          scores={scoresA}
+          house={houseA}
+          onContinue={() => setPhase("notesA")}
+        />
+      )}
+
+      {phase === "notesA" && (
+        <TherapistNotes
+          partnerName={displayA}
+          initial={notesA}
+          onContinue={(notes) => {
+            setNotesA(notes);
+            setPhase("passPartnerB");
+          }}
+        />
+      )}
+
+      {phase === "passPartnerB" && (
+        <PassDevice
+          title="Next partner"
+          body={`${displayA} is done. Pass the device to the second partner.`}
+          continueLabel="I’m the second partner"
           onContinue={() => setPhase("nameB")}
+        />
+      )}
+
+      {phase === "passTherapistB1" && (
+        <PassDevice
+          body="Hand the screen to the therapist for Partner two’s swipe results."
+          continueLabel="I’m the therapist"
+          onContinue={() => setPhase("soloResultsB")}
+        />
+      )}
+
+      {phase === "soloResultsB" && (
+        <PartnerScaleResults
+          partnerName={displayB}
+          scores={scoresB}
+          onContinue={() => setPhase("houseB")}
+        />
+      )}
+
+      {phase === "houseB" && (
+        <HouseBuilder
+          partnerName={displayB}
+          onComplete={(house) => {
+            setHouseB(house);
+            setPhase("passTherapistB2");
+          }}
+        />
+      )}
+
+      {phase === "passTherapistB2" && (
+        <PassDevice
+          body="Hand the screen back to the therapist for the consolidated view."
+          continueLabel="I’m the therapist"
+          onContinue={() => setPhase("consolidatedB")}
+        />
+      )}
+
+      {phase === "consolidatedB" && houseB && (
+        <PartnerConsolidatedResults
+          partnerName={displayB}
+          scores={scoresB}
+          house={houseB}
+          onContinue={() => setPhase("notesB")}
+        />
+      )}
+
+      {phase === "notesB" && (
+        <TherapistNotes
+          partnerName={displayB}
+          initial={notesB}
+          onContinue={finishCouple}
         />
       )}
 

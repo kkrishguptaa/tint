@@ -1,6 +1,6 @@
 # tint
 
-Couple intimacy map — two partners take turns on one device, swipe a seed deck across ten dimensions, then see dual scales and an intensity-aware Venn of where you overlap. Finished reports can be saved behind a 7-day share link.
+Couple intimacy map — each partner swipes a seed deck, then a therapist pass shows solo scales, an openness house (10 dimensions on 4 floors), and free-text reflections. After both partners finish, the couple sees dual scales and an intensity-aware Venn. Finished reports can be saved behind a 7-day share link.
 
 ## Spec & plan
 

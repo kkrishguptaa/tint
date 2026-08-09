@@ -1,6 +1,18 @@
 import { scoreAllDimensions } from "./scoring";
-import type { Answers, Card, Report } from "./types";
+import type {
+  Answers,
+  Card,
+  HouseFloor,
+  Report,
+} from "./types";
+import { DIMENSION_IDS } from "./types";
 import { buildVenn } from "./venn";
+
+function emptyHouse(): Record<(typeof DIMENSION_IDS)[number], HouseFloor> {
+  return Object.fromEntries(
+    DIMENSION_IDS.map((id) => [id, 1]),
+  ) as Record<(typeof DIMENSION_IDS)[number], HouseFloor>;
+}
 
 export function buildReport(input: {
   cards: Card[];
@@ -8,6 +20,10 @@ export function buildReport(input: {
   partnerBName: string;
   answersA: Answers;
   answersB: Answers;
+  houseA: Record<(typeof DIMENSION_IDS)[number], HouseFloor>;
+  houseB: Record<(typeof DIMENSION_IDS)[number], HouseFloor>;
+  notesA: string;
+  notesB: string;
   createdAt?: string;
 }): Report {
   const scoresA = scoreAllDimensions(input.cards, input.answersA);
@@ -24,7 +40,13 @@ export function buildReport(input: {
     partnerBName: input.partnerBName.trim() || "Partner B",
     scoresA,
     scoresB,
+    houseA: input.houseA,
+    houseB: input.houseB,
+    notesA: input.notesA.trim(),
+    notesB: input.notesB.trim(),
     venn,
     cardTitles,
   };
 }
+
+export { emptyHouse };

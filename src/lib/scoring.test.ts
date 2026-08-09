@@ -3,22 +3,19 @@ import { scoreAllDimensions, scoreDimension } from "./scoring";
 import type { Card } from "./types";
 
 describe("scoreDimension", () => {
-  it("scores all love as high ~100", () => {
+  it("scores all love as ~100", () => {
     const r = scoreDimension(["love", "love", "love"]);
     expect(r.score).toBe(100);
-    expect(r.band).toBe("high");
   });
 
-  it("scores all dislike as 0 / low", () => {
+  it("scores all dislike as 0", () => {
     const r = scoreDimension(["dislike", "dislike"]);
     expect(r.score).toBe(0);
-    expect(r.band).toBe("low");
   });
 
   it("blends affinity and breadth", () => {
     const r = scoreDimension(["love", "dislike"]);
     expect(r.score).toBe(50);
-    expect(r.band).toBe("mid");
   });
 });
 

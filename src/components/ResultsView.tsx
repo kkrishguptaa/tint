@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { DIMENSION_LABELS } from "@/lib/content";
 import type { Report } from "@/lib/types";
+import { DIMENSION_IDS, HOUSE_FLOOR_LABELS } from "@/lib/types";
 import { ScaleCompare } from "./ScaleCompare";
 import { VennDiagram } from "./VennDiagram";
 
@@ -9,6 +11,8 @@ type Props = {
   report: Report;
   shareEnabled?: boolean;
 };
+
+const FLOORS = [4, 3, 2, 1] as const;
 
 export function ResultsView({ report, shareEnabled = false }: Props) {
   const [shareUrl, setShareUrl] = useState<string | null>(null);
@@ -58,6 +62,64 @@ export function ResultsView({ report, shareEnabled = false }: Props) {
         venn={report.venn}
         cardTitles={report.cardTitles}
       />
+
+      <section className="space-y-4">
+        <h2 className="text-2xl">Openness houses</h2>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {(
+            [
+              [report.partnerAName, report.houseA],
+              [report.partnerBName, report.houseB],
+            ] as const
+          ).map(([name, house]) => (
+            <div
+              key={name}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="mb-3 text-lg">{name}</h3>
+              <div className="space-y-2 text-sm">
+                {FLOORS.map((floor) => {
+                  const dims = DIMENSION_IDS.filter((id) => house[id] === floor);
+                  return (
+                    <div key={floor}>
+                      <p className="text-xs uppercase text-[var(--ink-muted)]">
+                        Floor {floor} · {HOUSE_FLOOR_LABELS[floor]}
+                      </p>
+                      <p>
+                        {dims.length
+                          ? dims.map((id) => DIMENSION_LABELS[id]).join(", ")
+                          : "—"}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {(report.notesA || report.notesB) && (
+        <section className="space-y-4">
+          <h2 className="text-2xl">Therapist notes</h2>
+          {report.notesA && (
+            <article className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <h3 className="text-sm uppercase text-[var(--ink-muted)]">
+                {report.partnerAName}
+              </h3>
+              <p className="mt-2 whitespace-pre-wrap">{report.notesA}</p>
+            </article>
+          )}
+          {report.notesB && (
+            <article className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <h3 className="text-sm uppercase text-[var(--ink-muted)]">
+                {report.partnerBName}
+              </h3>
+              <p className="mt-2 whitespace-pre-wrap">{report.notesB}</p>
+            </article>
+          )}
+        </section>
+      )}
 
       {shareEnabled && (
         <section className="space-y-3 border-t border-white/10 pt-8">

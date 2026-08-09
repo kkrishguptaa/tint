@@ -1,4 +1,4 @@
-import type { Answers, Band, Card, DimensionId, DimensionScore, SwipeValue } from "./types";
+import type { Answers, Card, DimensionId, DimensionScore, SwipeValue } from "./types";
 import { DIMENSION_IDS } from "./types";
 
 const VALUE: Record<SwipeValue, number> = {
@@ -7,15 +7,9 @@ const VALUE: Record<SwipeValue, number> = {
   love: 2,
 };
 
-export function bandForScore(score: number): Band {
-  if (score <= 33) return "low";
-  if (score <= 66) return "mid";
-  return "high";
-}
-
 export function scoreDimension(answers: SwipeValue[]): DimensionScore {
   if (answers.length === 0) {
-    return { score: 0, band: "low" };
+    return { score: 0 };
   }
 
   const nums = answers.map((a) => VALUE[a]);
@@ -23,7 +17,7 @@ export function scoreDimension(answers: SwipeValue[]): DimensionScore {
   const breadth = nums.filter((n) => n >= 1).length / nums.length;
   const score = Math.round((0.6 * affinity + 0.4 * breadth) * 100);
 
-  return { score, band: bandForScore(score) };
+  return { score };
 }
 
 export function scoreAllDimensions(

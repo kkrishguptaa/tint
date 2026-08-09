@@ -5,13 +5,25 @@ import { DIMENSION_IDS } from "@/lib/types";
 
 const dimensionScoreSchema = z.object({
   score: z.number(),
-  band: z.enum(["low", "mid", "high"]),
 });
 
 const scoresSchema = z.object(
   Object.fromEntries(
     DIMENSION_IDS.map((id) => [id, dimensionScoreSchema]),
   ) as Record<(typeof DIMENSION_IDS)[number], typeof dimensionScoreSchema>,
+);
+
+const houseFloorSchema = z.union([
+  z.literal(1),
+  z.literal(2),
+  z.literal(3),
+  z.literal(4),
+]);
+
+const houseSchema = z.object(
+  Object.fromEntries(
+    DIMENSION_IDS.map((id) => [id, houseFloorSchema]),
+  ) as Record<(typeof DIMENSION_IDS)[number], typeof houseFloorSchema>,
 );
 
 const reportSchema = z.object({
@@ -21,6 +33,10 @@ const reportSchema = z.object({
   partnerBName: z.string(),
   scoresA: scoresSchema,
   scoresB: scoresSchema,
+  houseA: houseSchema,
+  houseB: houseSchema,
+  notesA: z.string(),
+  notesB: z.string(),
   venn: z.object({
     strongCommon: z.array(z.string()),
     common: z.array(z.string()),

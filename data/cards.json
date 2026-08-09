@@ -1,32 +1,992 @@
 [
-  { "id": "ps-touch", "dimension": "physical_sexual", "title": "Everyday touch", "prompt": "Holding hands, cuddling on the couch, casual physical closeness." },
-  { "id": "ps-desire", "dimension": "physical_sexual", "title": "Talking desire", "prompt": "Naming what you want sexually without embarrassment." },
-  { "id": "ps-rhythm", "dimension": "physical_sexual", "title": "Shared rhythm", "prompt": "Finding a sexual frequency that feels mutual, not negotiated as a chore." },
-  { "id": "em-checkin", "dimension": "emotional", "title": "Weekly check-ins", "prompt": "A recurring space to say how you actually feel." },
-  { "id": "em-repair", "dimension": "emotional", "title": "Quick repair", "prompt": "Coming back after a sharp moment within the same day." },
-  { "id": "em-softness", "dimension": "emotional", "title": "Soft landing", "prompt": "Being the safe place when the other is overwhelmed." },
-  { "id": "in-ideas", "dimension": "intellectual", "title": "Idea sparring", "prompt": "Debating ideas for fun, not to win." },
-  { "id": "in-learn", "dimension": "intellectual", "title": "Learn together", "prompt": "Courses, books, or podcasts you take in as a pair." },
-  { "id": "in-plans", "dimension": "intellectual", "title": "Long-range plans", "prompt": "Talking five-year shapes of life with curiosity." },
-  { "id": "sp-ritual", "dimension": "spiritual", "title": "Shared ritual", "prompt": "A practice — religious or not — that marks meaning together." },
-  { "id": "sp-values", "dimension": "spiritual", "title": "Values alignment", "prompt": "Knowing what ‘a good life’ means to each of you." },
-  { "id": "sp-awe", "dimension": "spiritual", "title": "Awe moments", "prompt": "Seeking beauty, nature, or silence on purpose." },
-  { "id": "ex-trip", "dimension": "experiential", "title": "Mini adventures", "prompt": "Spontaneous outings that break the weekday loop." },
-  { "id": "ex-novel", "dimension": "experiential", "title": "First-times", "prompt": "Trying something neither of you has done before." },
-  { "id": "ex-home", "dimension": "experiential", "title": "Home as stage", "prompt": "Turning ordinary nights at home into something memorable." },
-  { "id": "cr-make", "dimension": "creative", "title": "Make things", "prompt": "Cooking, building, writing, or crafting side by side." },
-  { "id": "cr-play", "dimension": "creative", "title": "Playfulness", "prompt": "Inside jokes, bits, and silly modes that only you two share." },
-  { "id": "cr-space", "dimension": "creative", "title": "Solo studio time", "prompt": "Protecting each other’s creative focus without resentment." },
-  { "id": "fi-open", "dimension": "financial", "title": "Money openness", "prompt": "Talking numbers without shame or secrecy." },
-  { "id": "fi-goals", "dimension": "financial", "title": "Shared goals", "prompt": "Saving or spending toward a goal you both named." },
-  { "id": "fi-roles", "dimension": "financial", "title": "Clear roles", "prompt": "Knowing who tracks what — and rotating when needed." },
-  { "id": "so-friends", "dimension": "social", "title": "Friend overlap", "prompt": "Having people you both enjoy as a unit." },
-  { "id": "so-alone", "dimension": "social", "title": "Separate orbits", "prompt": "Supporting nights out that don’t include each other." },
-  { "id": "so-host", "dimension": "social", "title": "Hosting", "prompt": "Opening your home or table to others together." },
-  { "id": "cf-direct", "dimension": "conflict", "title": "Directness", "prompt": "Saying the hard thing without a week of frost." },
-  { "id": "cf-pause", "dimension": "conflict", "title": "Fair pauses", "prompt": "Taking a break mid-fight and actually returning." },
-  { "id": "cf-own", "dimension": "conflict", "title": "Owning impact", "prompt": "Apologizing for effect, not only intent." },
-  { "id": "ae-home", "dimension": "aesthetic", "title": "Shared taste at home", "prompt": "Caring how your shared spaces look and feel." },
-  { "id": "ae-style", "dimension": "aesthetic", "title": "Style curiosity", "prompt": "Noticing and celebrating how the other dresses or presents." },
-  { "id": "ae-culture", "dimension": "aesthetic", "title": "Culture dates", "prompt": "Museums, films, music, or design as a date genre." }
+  {
+    "id": "physical_sexual-falling-asleep-tangled-together",
+    "dimension": "physical_sexual",
+    "title": "Falling asleep tangled together",
+    "prompt": "Falling asleep tangled together"
+  },
+  {
+    "id": "physical_sexual-a-hug-that-lasts",
+    "dimension": "physical_sexual",
+    "title": "Hug that lasts longer",
+    "prompt": "A hug that lasts longer than usual"
+  },
+  {
+    "id": "physical_sexual-holding-hands-in-public",
+    "dimension": "physical_sexual",
+    "title": "Holding hands in public",
+    "prompt": "Holding hands in public"
+  },
+  {
+    "id": "physical_sexual-cooking-side-by-side",
+    "dimension": "physical_sexual",
+    "title": "Cooking side by side",
+    "prompt": "Cooking side by side, bumping elbows"
+  },
+  {
+    "id": "physical_sexual-slow-dancing-in-the",
+    "dimension": "physical_sexual",
+    "title": "Slow dancing in the",
+    "prompt": "Slow dancing in the kitchen for no reason"
+  },
+  {
+    "id": "physical_sexual-a-forehead-kiss",
+    "dimension": "physical_sexual",
+    "title": "Forehead kiss",
+    "prompt": "A forehead kiss"
+  },
+  {
+    "id": "physical_sexual-sitting-close-on-the",
+    "dimension": "physical_sexual",
+    "title": "Sitting close on the",
+    "prompt": "Sitting close on the couch instead of across the room"
+  },
+  {
+    "id": "physical_sexual-a-back-rub-after",
+    "dimension": "physical_sexual",
+    "title": "Back rub after a",
+    "prompt": "A back rub after a long day"
+  },
+  {
+    "id": "physical_sexual-walking-arm-in-arm",
+    "dimension": "physical_sexual",
+    "title": "Walking arm in arm",
+    "prompt": "Walking arm in arm"
+  },
+  {
+    "id": "physical_sexual-resting-your-head-on",
+    "dimension": "physical_sexual",
+    "title": "Resting your head on",
+    "prompt": "Resting your head on their shoulder"
+  },
+  {
+    "id": "physical_sexual-a-surprise-hug-from",
+    "dimension": "physical_sexual",
+    "title": "Surprise hug from behind",
+    "prompt": "A surprise hug from behind"
+  },
+  {
+    "id": "physical_sexual-matching-your-breathing-while",
+    "dimension": "physical_sexual",
+    "title": "Matching your breathing while",
+    "prompt": "Matching your breathing while cuddling"
+  },
+  {
+    "id": "physical_sexual-holding-each-other-during",
+    "dimension": "physical_sexual",
+    "title": "Holding each other during",
+    "prompt": "Holding each other during a hard moment"
+  },
+  {
+    "id": "physical_sexual-playful-teasing-tickling-playfighting",
+    "dimension": "physical_sexual",
+    "title": "Playful teasing tickling playfighting",
+    "prompt": "Playful teasing \u2014 tickling, play-fighting"
+  },
+  {
+    "id": "physical_sexual-comfortable-silence-while-touching",
+    "dimension": "physical_sexual",
+    "title": "Comfortable silence while touching",
+    "prompt": "Comfortable silence while touching"
+  },
+  {
+    "id": "physical_sexual-talking-openly-about-what",
+    "dimension": "physical_sexual",
+    "title": "Talking openly about what",
+    "prompt": "Talking openly about what turns you on"
+  },
+  {
+    "id": "physical_sexual-sharing-a-fantasy-out",
+    "dimension": "physical_sexual",
+    "title": "Sharing a fantasy out",
+    "prompt": "Sharing a fantasy out loud"
+  },
+  {
+    "id": "physical_sexual-trying-a-new-position",
+    "dimension": "physical_sexual",
+    "title": "Trying a new position",
+    "prompt": "Trying a new position"
+  },
+  {
+    "id": "physical_sexual-being-more-spontaneous",
+    "dimension": "physical_sexual",
+    "title": "Being more spontaneous",
+    "prompt": "Being more spontaneous"
+  },
+  {
+    "id": "physical_sexual-scheduling-intimacy-in-advance",
+    "dimension": "physical_sexual",
+    "title": "Scheduling intimacy in advance",
+    "prompt": "Scheduling intimacy in advance"
+  },
+  {
+    "id": "physical_sexual-using-toys-together",
+    "dimension": "physical_sexual",
+    "title": "Using toys together",
+    "prompt": "Using toys together"
+  },
+  {
+    "id": "physical_sexual-roleplay",
+    "dimension": "physical_sexual",
+    "title": "Roleplay",
+    "prompt": "Role-play"
+  },
+  {
+    "id": "physical_sexual-taking-the-lead",
+    "dimension": "physical_sexual",
+    "title": "Taking the lead",
+    "prompt": "Taking the lead"
+  },
+  {
+    "id": "physical_sexual-letting-go-of-control",
+    "dimension": "physical_sexual",
+    "title": "Letting go of control",
+    "prompt": "Letting go of control"
+  },
+  {
+    "id": "physical_sexual-restraint-or-being-tied",
+    "dimension": "physical_sexual",
+    "title": "Restraint or being tied",
+    "prompt": "Restraint or being tied up"
+  },
+  {
+    "id": "physical_sexual-being-watched-or-watching",
+    "dimension": "physical_sexual",
+    "title": "Being watched or watching",
+    "prompt": "Being watched, or watching, as a couple"
+  },
+  {
+    "id": "physical_sexual-talking-dirty",
+    "dimension": "physical_sexual",
+    "title": "Talking dirty",
+    "prompt": "Talking dirty"
+  },
+  {
+    "id": "physical_sexual-slower-more-drawnout-intimacy",
+    "dimension": "physical_sexual",
+    "title": "Slower more drawnout intimacy",
+    "prompt": "Slower, more drawn-out intimacy"
+  },
+  {
+    "id": "physical_sexual-spontaneous-quick-intimacy",
+    "dimension": "physical_sexual",
+    "title": "Spontaneous quick intimacy",
+    "prompt": "Spontaneous, quick intimacy"
+  },
+  {
+    "id": "physical_sexual-trying-something-outside-your",
+    "dimension": "physical_sexual",
+    "title": "Trying something outside your",
+    "prompt": "Trying something outside your comfort zone, together"
+  },
+  {
+    "id": "emotional-naming-a-fear-you",
+    "dimension": "emotional",
+    "title": "Naming a fear you",
+    "prompt": "Naming a fear you haven't told anyone else"
+  },
+  {
+    "id": "emotional-being-first-to-apologise",
+    "dimension": "emotional",
+    "title": "Being first to apologise",
+    "prompt": "Being first to apologise after a fight"
+  },
+  {
+    "id": "emotional-crying-in-front-of",
+    "dimension": "emotional",
+    "title": "Crying in front of",
+    "prompt": "Crying in front of each other"
+  },
+  {
+    "id": "emotional-saying-i-need-you",
+    "dimension": "emotional",
+    "title": "Saying I need you",
+    "prompt": "Saying \"I need you\" out loud"
+  },
+  {
+    "id": "emotional-sharing-a-childhood-memory",
+    "dimension": "emotional",
+    "title": "Sharing a childhood memory",
+    "prompt": "Sharing a childhood memory that still stings"
+  },
+  {
+    "id": "emotional-telling-them-when-you",
+    "dimension": "emotional",
+    "title": "Telling them when you",
+    "prompt": "Telling them when you feel insecure"
+  },
+  {
+    "id": "emotional-admitting-when-youre-jealous",
+    "dimension": "emotional",
+    "title": "Admitting when youre jealous",
+    "prompt": "Admitting when you're jealous"
+  },
+  {
+    "id": "emotional-sharing-something-youre-ashamed",
+    "dimension": "emotional",
+    "title": "Sharing something youre ashamed",
+    "prompt": "Sharing something you're ashamed of"
+  },
+  {
+    "id": "emotional-telling-them-exactly-how",
+    "dimension": "emotional",
+    "title": "Telling them exactly how",
+    "prompt": "Telling them exactly how their words landed"
+  },
+  {
+    "id": "emotional-asking-for-reassurance-when",
+    "dimension": "emotional",
+    "title": "Asking for reassurance when",
+    "prompt": "Asking for reassurance when you need it"
+  },
+  {
+    "id": "emotional-naming-a-feeling-before",
+    "dimension": "emotional",
+    "title": "Naming a feeling before",
+    "prompt": "Naming a feeling before it turns into a fight"
+  },
+  {
+    "id": "emotional-letting-them-see-you",
+    "dimension": "emotional",
+    "title": "Letting them see you",
+    "prompt": "Letting them see you at your lowest"
+  },
+  {
+    "id": "emotional-saying-im-proud-of",
+    "dimension": "emotional",
+    "title": "Saying Im proud of",
+    "prompt": "Saying \"I'm proud of you\" and meaning it"
+  },
+  {
+    "id": "emotional-being-honest-about-a",
+    "dimension": "emotional",
+    "title": "Being honest about a",
+    "prompt": "Being honest about a feeling you're not proud of"
+  },
+  {
+    "id": "emotional-telling-them-you-love",
+    "dimension": "emotional",
+    "title": "Telling them you love",
+    "prompt": "Telling them you love them, unprompted"
+  },
+  {
+    "id": "intellectual-debating-something-you-disagree",
+    "dimension": "intellectual",
+    "title": "Debating something you disagree",
+    "prompt": "Debating something you disagree on, respectfully"
+  },
+  {
+    "id": "intellectual-reading-the-same-book",
+    "dimension": "intellectual",
+    "title": "Reading the same book",
+    "prompt": "Reading the same book and comparing notes"
+  },
+  {
+    "id": "intellectual-teaching-each-other-something",
+    "dimension": "intellectual",
+    "title": "Teaching each other something",
+    "prompt": "Teaching each other something new"
+  },
+  {
+    "id": "intellectual-asking-why-do-you",
+    "dimension": "intellectual",
+    "title": "Asking why do you",
+    "prompt": "Asking \"why do you believe that?\" and meaning it"
+  },
+  {
+    "id": "intellectual-changing-your-mind-because",
+    "dimension": "intellectual",
+    "title": "Changing your mind because",
+    "prompt": "Changing your mind because of something they said"
+  },
+  {
+    "id": "intellectual-watching-a-documentary-and",
+    "dimension": "intellectual",
+    "title": "Watching a documentary and",
+    "prompt": "Watching a documentary and discussing it after"
+  },
+  {
+    "id": "intellectual-sharing-an-article-that",
+    "dimension": "intellectual",
+    "title": "Sharing an article that",
+    "prompt": "Sharing an article that made you think"
+  },
+  {
+    "id": "intellectual-exploring-a-what-if",
+    "dimension": "intellectual",
+    "title": "Exploring a what if",
+    "prompt": "Exploring a \"what if\" question together"
+  },
+  {
+    "id": "intellectual-learning-a-language-together",
+    "dimension": "intellectual",
+    "title": "Learning a language together",
+    "prompt": "Learning a language together"
+  },
+  {
+    "id": "intellectual-debating-a-hypothetical-dilemma",
+    "dimension": "intellectual",
+    "title": "Debating a hypothetical dilemma",
+    "prompt": "Debating a hypothetical dilemma"
+  },
+  {
+    "id": "intellectual-explaining-your-work-or",
+    "dimension": "intellectual",
+    "title": "Explaining your work or",
+    "prompt": "Explaining your work or passion so they truly get it"
+  },
+  {
+    "id": "intellectual-asking-their-opinion-on",
+    "dimension": "intellectual",
+    "title": "Asking their opinion on",
+    "prompt": "Asking their opinion on a hard decision"
+  },
+  {
+    "id": "intellectual-disagreeing-about-a-book",
+    "dimension": "intellectual",
+    "title": "Disagreeing about a book",
+    "prompt": "Disagreeing about a book, film, or idea"
+  },
+  {
+    "id": "intellectual-exploring-a-big-idea",
+    "dimension": "intellectual",
+    "title": "Exploring a big idea",
+    "prompt": "Exploring a big idea just for fun"
+  },
+  {
+    "id": "intellectual-having-a-conversation-that",
+    "dimension": "intellectual",
+    "title": "Having a conversation that",
+    "prompt": "Having a conversation that goes way off-topic, happily"
+  },
+  {
+    "id": "spiritual-talking-about-what-gives",
+    "dimension": "spiritual",
+    "title": "Talking about what gives",
+    "prompt": "Talking about what gives life meaning"
+  },
+  {
+    "id": "spiritual-sharing-a-practice-prayer",
+    "dimension": "spiritual",
+    "title": "Sharing a practice prayer",
+    "prompt": "Sharing a practice \u2014 prayer, meditation, ritual"
+  },
+  {
+    "id": "spiritual-sitting-in-comfortable-silence",
+    "dimension": "spiritual",
+    "title": "Sitting in comfortable silence",
+    "prompt": "Sitting in comfortable silence together"
+  },
+  {
+    "id": "spiritual-discussing-what-happens-after",
+    "dimension": "spiritual",
+    "title": "Discussing what happens after",
+    "prompt": "Discussing what happens after we die"
+  },
+  {
+    "id": "spiritual-marking-a-tradition-together",
+    "dimension": "spiritual",
+    "title": "Marking a tradition together",
+    "prompt": "Marking a tradition together, just the two of you"
+  },
+  {
+    "id": "spiritual-talking-about-a-moment",
+    "dimension": "spiritual",
+    "title": "Talking about a moment",
+    "prompt": "Talking about a moment that felt bigger than yourselves"
+  },
+  {
+    "id": "spiritual-visiting-a-place-that",
+    "dimension": "spiritual",
+    "title": "Visiting a place that",
+    "prompt": "Visiting a place that feels sacred to one of you"
+  },
+  {
+    "id": "spiritual-discussing-doubt-in-faith",
+    "dimension": "spiritual",
+    "title": "Discussing doubt in faith",
+    "prompt": "Discussing doubt \u2014 in faith, in meaning, in anything"
+  },
+  {
+    "id": "spiritual-practicing-gratitude-together",
+    "dimension": "spiritual",
+    "title": "Practicing gratitude together",
+    "prompt": "Practicing gratitude together"
+  },
+  {
+    "id": "spiritual-talking-about-your-relationship",
+    "dimension": "spiritual",
+    "title": "Talking about your relationship",
+    "prompt": "Talking about your relationship to your roots or lineage"
+  },
+  {
+    "id": "spiritual-sharing-what-being-present",
+    "dimension": "spiritual",
+    "title": "Sharing what being present",
+    "prompt": "Sharing what \"being present\" means to each of you"
+  },
+  {
+    "id": "spiritual-discussing-whether-you-believe",
+    "dimension": "spiritual",
+    "title": "Discussing whether you believe",
+    "prompt": "Discussing whether you believe in fate or chance"
+  },
+  {
+    "id": "spiritual-sitting-with-grief-together",
+    "dimension": "spiritual",
+    "title": "Sitting with grief together",
+    "prompt": "Sitting with grief together"
+  },
+  {
+    "id": "spiritual-exploring-a-spiritual-practice",
+    "dimension": "spiritual",
+    "title": "Exploring a spiritual practice",
+    "prompt": "Exploring a spiritual practice neither of you has tried"
+  },
+  {
+    "id": "spiritual-talking-about-what-you",
+    "dimension": "spiritual",
+    "title": "Talking about what you",
+    "prompt": "Talking about what you hope your legacy will be"
+  },
+  {
+    "id": "experiential-trying-something-neither-of",
+    "dimension": "experiential",
+    "title": "Trying something neither of",
+    "prompt": "Trying something neither of you has done before"
+  },
+  {
+    "id": "experiential-a-trip-with-no",
+    "dimension": "experiential",
+    "title": "Trip with no fixed",
+    "prompt": "A trip with no fixed plan"
+  },
+  {
+    "id": "experiential-getting-lost-somewhere-new",
+    "dimension": "experiential",
+    "title": "Getting lost somewhere new",
+    "prompt": "Getting lost somewhere new, on purpose"
+  },
+  {
+    "id": "experiential-learning-a-skill-together",
+    "dimension": "experiential",
+    "title": "Learning a skill together",
+    "prompt": "Learning a skill together from scratch"
+  },
+  {
+    "id": "experiential-doing-something-a-little",
+    "dimension": "experiential",
+    "title": "Doing something a little",
+    "prompt": "Doing something a little scary, side by side"
+  },
+  {
+    "id": "experiential-waking-up-early-to",
+    "dimension": "experiential",
+    "title": "Waking up early to",
+    "prompt": "Waking up early to watch a sunrise together"
+  },
+  {
+    "id": "experiential-cooking-a-cuisine-youve",
+    "dimension": "experiential",
+    "title": "Cooking a cuisine youve",
+    "prompt": "Cooking a cuisine you've never tried"
+  },
+  {
+    "id": "experiential-taking-a-spontaneous-day",
+    "dimension": "experiential",
+    "title": "Taking a spontaneous day",
+    "prompt": "Taking a spontaneous day trip"
+  },
+  {
+    "id": "experiential-camping-or-being-outdoors",
+    "dimension": "experiential",
+    "title": "Camping or being outdoors",
+    "prompt": "Camping or being outdoors together"
+  },
+  {
+    "id": "experiential-trying-a-physical-challenge",
+    "dimension": "experiential",
+    "title": "Trying a physical challenge",
+    "prompt": "Trying a physical challenge \u2014 a hike, a climb, a run"
+  },
+  {
+    "id": "experiential-attending-a-live-event",
+    "dimension": "experiential",
+    "title": "Attending a live event",
+    "prompt": "Attending a live event you've never been to"
+  },
+  {
+    "id": "experiential-doing-something-silly-and",
+    "dimension": "experiential",
+    "title": "Doing something silly and",
+    "prompt": "Doing something silly and unplanned"
+  },
+  {
+    "id": "experiential-revisiting-somewhere-meaningful-from",
+    "dimension": "experiential",
+    "title": "Revisiting somewhere meaningful from",
+    "prompt": "Revisiting somewhere meaningful from your past together"
+  },
+  {
+    "id": "experiential-trying-a-new-form",
+    "dimension": "experiential",
+    "title": "Trying a new form",
+    "prompt": "Trying a new form of art or performance"
+  },
+  {
+    "id": "experiential-doing-a-nophones-day",
+    "dimension": "experiential",
+    "title": "Doing a nophones day",
+    "prompt": "Doing a no-phones day together"
+  },
+  {
+    "id": "creative-making-something-with-your",
+    "dimension": "creative",
+    "title": "Making something with your",
+    "prompt": "Making something with your hands, together"
+  },
+  {
+    "id": "creative-improvising-a-song-a",
+    "dimension": "creative",
+    "title": "Improvising a song a",
+    "prompt": "Improvising \u2014 a song, a story, a joke"
+  },
+  {
+    "id": "creative-redecorating-a-shared-space",
+    "dimension": "creative",
+    "title": "Redecorating a shared space",
+    "prompt": "Redecorating a shared space"
+  },
+  {
+    "id": "creative-cooking-a-dish-neither",
+    "dimension": "creative",
+    "title": "Cooking a dish neither",
+    "prompt": "Cooking a dish neither of you has made"
+  },
+  {
+    "id": "creative-dreaming-up-a-someday",
+    "dimension": "creative",
+    "title": "Dreaming up a someday",
+    "prompt": "Dreaming up a \"someday\" project"
+  },
+  {
+    "id": "creative-writing-something-together-a",
+    "dimension": "creative",
+    "title": "Writing something together a",
+    "prompt": "Writing something together \u2014 a letter, a story"
+  },
+  {
+    "id": "creative-taking-photos-or-making",
+    "dimension": "creative",
+    "title": "Taking photos or making",
+    "prompt": "Taking photos or making art of each other"
+  },
+  {
+    "id": "creative-building-something-from-scratch",
+    "dimension": "creative",
+    "title": "Building something from scratch",
+    "prompt": "Building something from scratch"
+  },
+  {
+    "id": "creative-making-a-playlist-that",
+    "dimension": "creative",
+    "title": "Making a playlist that",
+    "prompt": "Making a playlist that tells your story"
+  },
+  {
+    "id": "creative-inventing-an-inside-joke",
+    "dimension": "creative",
+    "title": "Inventing an inside joke",
+    "prompt": "Inventing an inside joke or tradition"
+  },
+  {
+    "id": "creative-designing-your-ideal-shared",
+    "dimension": "creative",
+    "title": "Designing your ideal shared",
+    "prompt": "Designing your ideal shared home"
+  },
+  {
+    "id": "creative-making-a-gift-by",
+    "dimension": "creative",
+    "title": "Making a gift by",
+    "prompt": "Making a gift by hand instead of buying one"
+  },
+  {
+    "id": "creative-journaling-side-by-side",
+    "dimension": "creative",
+    "title": "Journaling side by side",
+    "prompt": "Journaling side by side"
+  },
+  {
+    "id": "creative-choreographing-something-silly-together",
+    "dimension": "creative",
+    "title": "Choreographing something silly together",
+    "prompt": "Choreographing something silly together"
+  },
+  {
+    "id": "creative-creating-a-ritual-thats",
+    "dimension": "creative",
+    "title": "Creating a ritual thats",
+    "prompt": "Creating a ritual that's uniquely yours"
+  },
+  {
+    "id": "financial-talking-openly-about-what",
+    "dimension": "financial",
+    "title": "Talking openly about what",
+    "prompt": "Talking openly about what you each earn"
+  },
+  {
+    "id": "financial-naming-a-money-fear",
+    "dimension": "financial",
+    "title": "Naming a money fear",
+    "prompt": "Naming a money fear out loud"
+  },
+  {
+    "id": "financial-making-a-big-purchase",
+    "dimension": "financial",
+    "title": "Making a big purchase",
+    "prompt": "Making a big purchase decision together"
+  },
+  {
+    "id": "financial-being-transparent-about-debt",
+    "dimension": "financial",
+    "title": "Being transparent about debt",
+    "prompt": "Being transparent about debt"
+  },
+  {
+    "id": "financial-planning-a-shared-future",
+    "dimension": "financial",
+    "title": "Planning a shared future",
+    "prompt": "Planning a shared future expense"
+  },
+  {
+    "id": "financial-talking-about-how-your",
+    "dimension": "financial",
+    "title": "Talking about how your",
+    "prompt": "Talking about how your family handled money growing up"
+  },
+  {
+    "id": "financial-setting-a-savings-goal",
+    "dimension": "financial",
+    "title": "Setting a savings goal",
+    "prompt": "Setting a savings goal together"
+  },
+  {
+    "id": "financial-splitting-expenses-and-talking",
+    "dimension": "financial",
+    "title": "Splitting expenses and talking",
+    "prompt": "Splitting expenses and talking about what feels fair"
+  },
+  {
+    "id": "financial-discussing-what-financial-security",
+    "dimension": "financial",
+    "title": "Discussing what financial security",
+    "prompt": "Discussing what financial security means to each of you"
+  },
+  {
+    "id": "financial-talking-about-money-and",
+    "dimension": "financial",
+    "title": "Talking about money and",
+    "prompt": "Talking about money and power in the relationship"
+  },
+  {
+    "id": "financial-planning-a-big-life",
+    "dimension": "financial",
+    "title": "Planning a big life",
+    "prompt": "Planning a big life expense together \u2014 a home, a trip"
+  },
+  {
+    "id": "financial-being-honest-about-a",
+    "dimension": "financial",
+    "title": "Being honest about a",
+    "prompt": "Being honest about a financial mistake"
+  },
+  {
+    "id": "financial-discussing-how-youd-handle",
+    "dimension": "financial",
+    "title": "Discussing how youd handle",
+    "prompt": "Discussing how you'd handle combined finances"
+  },
+  {
+    "id": "financial-talking-about-generosity-giving",
+    "dimension": "financial",
+    "title": "Talking about generosity giving",
+    "prompt": "Talking about generosity \u2014 giving to others, together"
+  },
+  {
+    "id": "financial-naming-what-youd-do",
+    "dimension": "financial",
+    "title": "Naming what youd do",
+    "prompt": "Naming what you'd do with unexpected money"
+  },
+  {
+    "id": "social-trying-a-new-hobby",
+    "dimension": "social",
+    "title": "Trying a new hobby",
+    "prompt": "Trying a new hobby together"
+  },
+  {
+    "id": "social-joining-a-class-or",
+    "dimension": "social",
+    "title": "Joining a class or",
+    "prompt": "Joining a class or workshop as a pair"
+  },
+  {
+    "id": "social-hosting-friends-at-home",
+    "dimension": "social",
+    "title": "Hosting friends at home",
+    "prompt": "Hosting friends at home together"
+  },
+  {
+    "id": "social-making-new-friends-as",
+    "dimension": "social",
+    "title": "Making new friends as",
+    "prompt": "Making new friends as a couple"
+  },
+  {
+    "id": "social-doing-something-solo-then",
+    "dimension": "social",
+    "title": "Doing something solo then",
+    "prompt": "Doing something solo, then telling them about it after"
+  },
+  {
+    "id": "social-playing-a-game-or",
+    "dimension": "social",
+    "title": "Playing a game or",
+    "prompt": "Playing a game or sport together"
+  },
+  {
+    "id": "social-supporting-each-others-separate",
+    "dimension": "social",
+    "title": "Supporting each others separate",
+    "prompt": "Supporting each other's separate friend groups"
+  },
+  {
+    "id": "social-going-to-a-party",
+    "dimension": "social",
+    "title": "Going to a party",
+    "prompt": "Going to a party together"
+  },
+  {
+    "id": "social-volunteering-together",
+    "dimension": "social",
+    "title": "Volunteering together",
+    "prompt": "Volunteering together"
+  },
+  {
+    "id": "social-watching-a-show-thats",
+    "dimension": "social",
+    "title": "Watching a show thats",
+    "prompt": "Watching a show that's \"yours\" as a couple"
+  },
+  {
+    "id": "social-traveling-with-a-group",
+    "dimension": "social",
+    "title": "Traveling with a group",
+    "prompt": "Traveling with a group of friends"
+  },
+  {
+    "id": "social-standing-up-for-your",
+    "dimension": "social",
+    "title": "Standing up for your",
+    "prompt": "Standing up for your partner among your friends"
+  },
+  {
+    "id": "social-introducing-your-partner-to",
+    "dimension": "social",
+    "title": "Introducing your partner to",
+    "prompt": "Introducing your partner to your family"
+  },
+  {
+    "id": "social-protecting-couple-time-inside",
+    "dimension": "social",
+    "title": "Protecting couple time inside",
+    "prompt": "Protecting couple time inside a busy social life"
+  },
+  {
+    "id": "social-disagreeing-about-how-much",
+    "dimension": "social",
+    "title": "Disagreeing about how much",
+    "prompt": "Disagreeing about how much social time you each need"
+  },
+  {
+    "id": "conflict-naming-what-you-need",
+    "dimension": "conflict",
+    "title": "Naming what you need",
+    "prompt": "Naming what you need mid-argument, not after"
+  },
+  {
+    "id": "conflict-taking-a-break-and",
+    "dimension": "conflict",
+    "title": "Taking a break and",
+    "prompt": "Taking a break and actually returning to finish it"
+  },
+  {
+    "id": "conflict-saying-i-was-wrong",
+    "dimension": "conflict",
+    "title": "Saying I was wrong",
+    "prompt": "Saying \"I was wrong\" without qualifying it"
+  },
+  {
+    "id": "conflict-staying-in-the-room",
+    "dimension": "conflict",
+    "title": "Staying in the room",
+    "prompt": "Staying in the room instead of shutting down"
+  },
+  {
+    "id": "conflict-asking-what-did-that",
+    "dimension": "conflict",
+    "title": "Asking what did that",
+    "prompt": "Asking \"what did that bring up for you?\" afterward"
+  },
+  {
+    "id": "conflict-noticing-when-youre-about",
+    "dimension": "conflict",
+    "title": "Noticing when youre about",
+    "prompt": "Noticing when you're about to repeat an old pattern"
+  },
+  {
+    "id": "conflict-asking-for-a-repair",
+    "dimension": "conflict",
+    "title": "Asking for a repair",
+    "prompt": "Asking for a repair, not just an apology"
+  },
+  {
+    "id": "conflict-naming-the-real-issue",
+    "dimension": "conflict",
+    "title": "Naming the real issue",
+    "prompt": "Naming the real issue underneath a small fight"
+  },
+  {
+    "id": "conflict-letting-them-finish-before",
+    "dimension": "conflict",
+    "title": "Letting them finish before",
+    "prompt": "Letting them finish before you respond"
+  },
+  {
+    "id": "conflict-asking-what-they-needed",
+    "dimension": "conflict",
+    "title": "Asking what they needed",
+    "prompt": "Asking what they needed and didn't get"
+  },
+  {
+    "id": "conflict-owning-your-part-before",
+    "dimension": "conflict",
+    "title": "Owning your part before",
+    "prompt": "Owning your part before naming theirs"
+  },
+  {
+    "id": "conflict-checking-in-the-next",
+    "dimension": "conflict",
+    "title": "Checking in the next",
+    "prompt": "Checking in the next day about how it landed"
+  },
+  {
+    "id": "conflict-talking-through-a-fight",
+    "dimension": "conflict",
+    "title": "Talking through a fight",
+    "prompt": "Talking through a fight you handled badly, together"
+  },
+  {
+    "id": "conflict-asking-are-we-okay",
+    "dimension": "conflict",
+    "title": "Asking are we okay",
+    "prompt": "Asking \"are we okay?\" out loud"
+  },
+  {
+    "id": "conflict-setting-a-rule-for",
+    "dimension": "conflict",
+    "title": "Setting a rule for",
+    "prompt": "Setting a rule for how you fight fair"
+  },
+  {
+    "id": "aesthetic-agreeing-on-what-beautiful",
+    "dimension": "aesthetic",
+    "title": "Agreeing on what beautiful",
+    "prompt": "Agreeing on what \"beautiful\" means to each of you"
+  },
+  {
+    "id": "aesthetic-choosing-art-or-music",
+    "dimension": "aesthetic",
+    "title": "Choosing art or music",
+    "prompt": "Choosing art or music for a shared space"
+  },
+  {
+    "id": "aesthetic-noticing-the-same-sunset",
+    "dimension": "aesthetic",
+    "title": "Noticing the same sunset",
+    "prompt": "Noticing the same sunset, together"
+  },
+  {
+    "id": "aesthetic-dressing-up-for-no",
+    "dimension": "aesthetic",
+    "title": "Dressing up for no",
+    "prompt": "Dressing up for no occasion"
+  },
+  {
+    "id": "aesthetic-disagreeing-about-taste-and",
+    "dimension": "aesthetic",
+    "title": "Disagreeing about taste and",
+    "prompt": "Disagreeing about taste, and staying curious anyway"
+  },
+  {
+    "id": "aesthetic-curating-a-shared-playlist",
+    "dimension": "aesthetic",
+    "title": "Curating a shared playlist",
+    "prompt": "Curating a shared playlist"
+  },
+  {
+    "id": "aesthetic-picking-a-movie-based",
+    "dimension": "aesthetic",
+    "title": "Picking a movie based",
+    "prompt": "Picking a movie based purely on how it looks"
+  },
+  {
+    "id": "aesthetic-talking-about-a-place",
+    "dimension": "aesthetic",
+    "title": "Talking about a place",
+    "prompt": "Talking about a place you find beautiful and why"
+  },
+  {
+    "id": "aesthetic-choosing-how-to-decorate",
+    "dimension": "aesthetic",
+    "title": "Choosing how to decorate",
+    "prompt": "Choosing how to decorate a room together"
+  },
+  {
+    "id": "aesthetic-noticing-beauty-in-something",
+    "dimension": "aesthetic",
+    "title": "Noticing beauty in something",
+    "prompt": "Noticing beauty in something ordinary, out loud"
+  },
+  {
+    "id": "aesthetic-going-somewhere-just-because",
+    "dimension": "aesthetic",
+    "title": "Going somewhere just because",
+    "prompt": "Going somewhere just because it's visually stunning"
+  },
+  {
+    "id": "aesthetic-talking-about-a-piece",
+    "dimension": "aesthetic",
+    "title": "Talking about a piece",
+    "prompt": "Talking about a piece of art that moved you"
+  },
+  {
+    "id": "aesthetic-disagreeing-about-a-style",
+    "dimension": "aesthetic",
+    "title": "Disagreeing about a style",
+    "prompt": "Disagreeing about a style choice, playfully"
+  },
+  {
+    "id": "aesthetic-choosing-an-outfit-for",
+    "dimension": "aesthetic",
+    "title": "Choosing an outfit for",
+    "prompt": "Choosing an outfit for each other"
+  },
+  {
+    "id": "aesthetic-appreciating-something-the-other",
+    "dimension": "aesthetic",
+    "title": "Appreciating something the other",
+    "prompt": "Appreciating something the other person made or chose"
+  }
 ]

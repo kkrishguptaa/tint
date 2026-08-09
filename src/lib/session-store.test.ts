@@ -6,12 +6,15 @@ import { createSession, getSession } from "./session-store";
 import type { Report } from "./types";
 import { DIMENSION_IDS } from "./types";
 
-const score = { score: 50, band: "mid" as const };
+const score = { score: 50 };
 
 function sampleReport(): Report {
   const scores = Object.fromEntries(
     DIMENSION_IDS.map((id) => [id, score]),
   ) as Report["scoresA"];
+  const house = Object.fromEntries(
+    DIMENSION_IDS.map((id) => [id, 1 as const]),
+  ) as Report["houseA"];
   return {
     version: 1,
     createdAt: new Date().toISOString(),
@@ -19,6 +22,10 @@ function sampleReport(): Report {
     partnerBName: "B",
     scoresA: scores,
     scoresB: scores,
+    houseA: house,
+    houseB: house,
+    notesA: "",
+    notesB: "",
     venn: { strongCommon: [], common: [], aOnly: [], bOnly: [] },
     cardTitles: {},
   };
