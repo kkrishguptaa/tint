@@ -2,7 +2,19 @@
   "version": 1,
   "transcripts": {
     "107f2786-57ef-48bb-a7c1-04668709cc16/107f2786-57ef-48bb-a7c1-04668709cc16.jsonl": {
-      "mtime": 1786258649
+      "mtime": 1786272472
+    },
+    "107f2786-57ef-48bb-a7c1-04668709cc16/subagents/0b6541bc-55f2-4e19-aa75-c490392f7c07.jsonl": {
+      "mtime": 1786251452
+    },
+    "107f2786-57ef-48bb-a7c1-04668709cc16/subagents/85b93c3e-1e3e-44f7-9409-7418b4322e16.jsonl": {
+      "mtime": 1786272451
+    },
+    "107f2786-57ef-48bb-a7c1-04668709cc16/subagents/d2c88d27-0a82-4d93-86bc-5f62d4357fb6.jsonl": {
+      "mtime": 1786258698
+    },
+    "107f2786-57ef-48bb-a7c1-04668709cc16/subagents/e42090de-a9fc-4efe-baee-5d18b53a6b76.jsonl": {
+      "mtime": 1786272480
     }
   }
 }
