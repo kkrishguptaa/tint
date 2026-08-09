@@ -34,10 +34,10 @@ export function PartnerScaleResults({
               <span>{DIMENSION_LABELS[id]}</span>
               <span className="text-[var(--ink-muted)]">{scores[id].score}</span>
             </div>
-            <div className="relative h-3 rounded-full bg-white/10">
+            <div className="relative h-3 rounded-full bg-[var(--surface)] ring-1 ring-[var(--border)]">
               <span
-                className="absolute top-1/2 size-3 -translate-y-1/2 rounded-full bg-[var(--accent)]"
-                style={{ left: `calc(${scores[id].score}% - 6px)` }}
+                className="absolute top-1/2 size-3.5 -translate-y-1/2 rounded-full bg-[var(--espresso)] ring-2 ring-[var(--warm-white)]"
+                style={{ left: `calc(${scores[id].score}% - 7px)` }}
               />
             </div>
           </li>
@@ -47,7 +47,7 @@ export function PartnerScaleResults({
       <button
         type="button"
         onClick={onContinue}
-        className="rounded-full bg-[var(--accent)] px-6 py-3 text-[#1a1410]"
+        className="rounded-full btn-primary px-6 py-3"
       >
         Continue to house activity
       </button>

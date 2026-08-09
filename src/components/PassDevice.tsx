@@ -22,7 +22,7 @@ export function PassDevice({
       <button
         type="button"
         onClick={onContinue}
-        className="mt-4 rounded-full bg-[var(--accent)] px-6 py-3 font-medium text-[#1a1410]"
+        className="mt-4 rounded-full btn-primary px-6 py-3 font-medium"
       >
         {continueLabel}
       </button>

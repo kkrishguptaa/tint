@@ -33,13 +33,13 @@ export function TherapistNotes({
         onChange={(e) => setNotes(e.target.value)}
         rows={10}
         placeholder="What stood out in scales, the house, or the conversation…"
-        className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-[var(--accent)]"
+        className="w-full rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none focus:border-[var(--accent)]"
       />
 
       <button
         type="button"
         onClick={() => onContinue(notes)}
-        className="rounded-full bg-[var(--accent)] px-6 py-3 text-[#1a1410]"
+        className="rounded-full btn-primary px-6 py-3"
       >
         Save notes & continue
       </button>

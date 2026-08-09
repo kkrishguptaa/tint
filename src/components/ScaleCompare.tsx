@@ -34,15 +34,15 @@ export function ScaleCompare({
                 {scoresA[id].score} / {scoresB[id].score}
               </span>
             </div>
-            <div className="relative h-3 rounded-full bg-white/10">
+            <div className="relative h-3 rounded-full bg-[var(--surface)] ring-1 ring-[var(--border)]">
               <span
-                className="absolute top-1/2 size-3 -translate-y-1/2 rounded-full bg-[var(--partner-a)]"
-                style={{ left: `calc(${scoresA[id].score}% - 6px)` }}
+                className="absolute top-1/2 size-3.5 -translate-y-1/2 rounded-full bg-[var(--partner-a)] ring-2 ring-[var(--warm-white)]"
+                style={{ left: `calc(${scoresA[id].score}% - 7px)` }}
                 title={`${partnerAName}: ${scoresA[id].score}`}
               />
               <span
-                className="absolute top-1/2 size-3 -translate-y-1/2 rounded-full bg-[var(--partner-b)]"
-                style={{ left: `calc(${scoresB[id].score}% - 6px)` }}
+                className="absolute top-1/2 size-3.5 -translate-y-1/2 rounded-full bg-[var(--partner-b)] ring-2 ring-[var(--warm-white)]"
+                style={{ left: `calc(${scoresB[id].score}% - 7px)` }}
                 title={`${partnerBName}: ${scoresB[id].score}`}
               />
             </div>

@@ -88,7 +88,7 @@ export function SwipeDeck({
       </div>
 
       <div
-        className={`relative touch-none select-none rounded-3xl border border-white/10 bg-[var(--bg-elevated)] p-8 shadow-2xl ${
+        className={`relative touch-none select-none rounded-3xl border border-[var(--border)] bg-[var(--bg-elevated)] p-8 shadow-2xl ${
           exiting ? "transition-transform duration-200 ease-out" : "transition-transform duration-150 ease-out"
         }`}
         style={{
@@ -125,7 +125,7 @@ export function SwipeDeck({
         }}
       >
         {hint && (
-          <p className="absolute top-4 left-1/2 -translate-x-1/2 text-xs tracking-[0.2em] uppercase text-[var(--accent-soft)]">
+          <p className="absolute top-4 left-1/2 -translate-x-1/2 text-xs tracking-[0.2em] uppercase text-[var(--accent-text)]">
             {hint === "dislike" ? "Not for me" : hint === "like" ? "Like" : "Very like"}
           </p>
         )}
@@ -139,7 +139,7 @@ export function SwipeDeck({
         <button
           type="button"
           disabled={exiting}
-          className="rounded-2xl bg-white/5 px-3 py-3 text-[var(--dislike)] disabled:opacity-40"
+          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-3 py-3 font-medium text-[var(--dislike)] disabled:opacity-40"
           onClick={() => commit("dislike")}
         >
           ← Not
@@ -147,7 +147,7 @@ export function SwipeDeck({
         <button
           type="button"
           disabled={exiting}
-          className="rounded-2xl bg-white/5 px-3 py-3 text-[var(--like)] disabled:opacity-40"
+          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-3 py-3 font-medium text-[var(--like)] disabled:opacity-40"
           onClick={() => commit("like")}
         >
           ↑ Like
@@ -155,7 +155,7 @@ export function SwipeDeck({
         <button
           type="button"
           disabled={exiting}
-          className="rounded-2xl bg-white/5 px-3 py-3 text-[var(--love)] disabled:opacity-40"
+          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-3 py-3 font-medium text-[var(--love)] disabled:opacity-40"
           onClick={() => commit("love")}
         >
           Very →

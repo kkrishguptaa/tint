@@ -1,17 +1,47 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #1a1410;
-  --bg-elevated: #2a211c;
-  --ink: #f5ebe0;
-  --ink-muted: #c4b5a5;
-  --accent: #e07a5f;
-  --accent-soft: #f2cc8f;
-  --partner-a: #81b29a;
-  --partner-b: #f2cc8f;
-  --dislike: #9a8c98;
-  --like: #81b29a;
-  --love: #e07a5f;
+  /* The Coping Central — core palette */
+  --signature-pink: #ffabb0;
+  --blush-trim: #ffd2e8;
+  --espresso: #392413;
+  --warm-white: #ffffff;
+
+  /* Rainbow accents (sparingly) */
+  --accent-red: #ff1616;
+  --accent-orange: #fd630c;
+  --accent-yellow: #fbed21;
+  --accent-green: #3ab54a;
+  --accent-sky: #29aae1;
+  --accent-blue: #004aad;
+  --accent-violet: #4b3092;
+
+  /* Surfaces */
+  --bg: var(--warm-white);
+  --bg-elevated: #fff7fa;
+  --surface: color-mix(in srgb, var(--blush-trim) 40%, var(--warm-white));
+  --border: color-mix(in srgb, var(--espresso) 24%, transparent);
+
+  /* Text — espresso family for readable contrast on light surfaces */
+  --ink: var(--espresso);
+  --ink-muted: #5a3d2c;
+
+  /* Brand fills (large areas / buttons) */
+  --accent: var(--signature-pink);
+  --accent-soft: var(--blush-trim);
+  --on-accent: var(--espresso);
+
+  /* Brand / status as text (darkened for WCAG on white) */
+  --accent-text: #b03d55;
+  --dislike: #5a3d2c;
+  --like: #217a32;
+  --love: #b03d55;
+
+  /* Partner distinction — darker blues/violets for text + markers */
+  --partner-a: var(--accent-blue);
+  --partner-b: var(--accent-violet);
+  --partner-a-soft: color-mix(in srgb, var(--accent-sky) 55%, white);
+  --partner-b-soft: color-mix(in srgb, var(--accent-violet) 35%, white);
 }
 
 html,
@@ -22,14 +52,26 @@ body {
 body {
   margin: 0;
   background:
-    radial-gradient(1200px 600px at 10% -10%, #3d2c24 0%, transparent 55%),
-    radial-gradient(900px 500px at 100% 0%, #2d3a32 0%, transparent 50%),
+    radial-gradient(1000px 520px at 8% -8%, var(--blush-trim) 0%, transparent 55%),
+    radial-gradient(900px 480px at 100% 0%, color-mix(in srgb, var(--signature-pink) 40%, white) 0%, transparent 50%),
     var(--bg);
   color: var(--ink);
   font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
+  color: inherit;
+}
+
+/* Primary CTA: espresso fill + warm white label for guaranteed contrast */
+.btn-primary {
+  background: var(--espresso);
+  color: var(--warm-white);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
 }

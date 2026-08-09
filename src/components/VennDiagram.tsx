@@ -28,7 +28,7 @@ export function VennDiagram({
         </p>
       </header>
 
-      <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-4 sm:p-6">
+      <div className="overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6">
         <svg
           viewBox="0 0 360 220"
           className="mx-auto block h-auto w-full max-w-md"
@@ -39,19 +39,17 @@ export function VennDiagram({
             cx="130"
             cy="110"
             r="88"
-            fill="var(--partner-a)"
-            fillOpacity="0.28"
+            fill="var(--partner-a-soft)"
             stroke="var(--partner-a)"
-            strokeWidth="2"
+            strokeWidth="2.5"
           />
           <circle
             cx="230"
             cy="110"
             r="88"
-            fill="var(--partner-b)"
-            fillOpacity="0.28"
+            fill="var(--partner-b-soft)"
             stroke="var(--partner-b)"
-            strokeWidth="2"
+            strokeWidth="2.5"
           />
           <text
             x="88"
@@ -118,7 +116,7 @@ export function VennDiagram({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3">
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+        <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
           <h3 className="text-sm tracking-wide uppercase text-[var(--partner-a)]">
             Only {partnerAName}
           </h3>
@@ -133,8 +131,8 @@ export function VennDiagram({
           </ul>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <h3 className="text-sm tracking-wide uppercase text-[var(--accent-soft)]">
+        <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+          <h3 className="text-sm tracking-wide uppercase text-[var(--accent-text)]">
             Shared
           </h3>
           {shared.length === 0 ? (
@@ -145,7 +143,7 @@ export function VennDiagram({
                 <li key={item.id} className="flex flex-wrap items-center gap-2">
                   <span>{cardTitles[item.id] ?? item.id}</span>
                   {item.strong && (
-                    <span className="rounded-full bg-[var(--love)]/20 px-2 py-0.5 text-[10px] tracking-wide uppercase text-[var(--love)]">
+                    <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-[10px] font-medium tracking-wide uppercase text-[var(--accent-text)]">
                       Very like
                     </span>
                   )}
@@ -155,7 +153,7 @@ export function VennDiagram({
           )}
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+        <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
           <h3 className="text-sm tracking-wide uppercase text-[var(--partner-b)]">
             Only {partnerBName}
           </h3>

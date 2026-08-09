@@ -1,26 +1,36 @@
 # tint
 
-Couple intimacy map — each partner swipes a seed deck, then a therapist pass shows solo scales, an openness house (10 dimensions on 4 floors), and free-text reflections. After both partners finish, the couple sees dual scales and an intensity-aware Venn. Finished reports can be saved behind a 7-day share link.
+Therapist-facing couple intimacy assessment for The Coping Central.
 
-## Spec & plan
+## Features
 
-- PRD: `docs/superpowers/specs/2026-08-09-couple-intimacy-assessment-prd.md`
-- Plan: `docs/superpowers/plans/2026-08-09-couple-intimacy-mvp.md`
+- Therapist login
+- Client table with pseudonym, relationship type, optional partner link
+- Per-client flow: shuffled swipe cards → openness house → therapist tags (neglected / appreciated / hopes) + remarks → summary
+- Couple conclusion: intimacy-type Venn, alignment scores, side-by-side houses & tags, per-dimension prompt Venns
+- Debug: **Ctrl+Option+K** on the cards screen fills remaining cards randomly
 
-## Develop
+## Setup
 
 ```bash
+cp .env.example .env.local
+# set DATABASE_URL (Neon) and SESSION_SECRET
+
 npm install
+npm run db:push
+npm run db:seed
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Default seeded therapist: `utkarsha` (password set via seed script).
 
-```bash
-npm test
-npm run build
-```
+## Scripts
+
+- `npm run dev` — Next.js
+- `npm test` — Vitest
+- `npm run db:push` — push Drizzle schema to Neon
+- `npm run db:seed` — upsert therapist with bcrypt password hash
 
 ## Content
 
-Edit `data/cards.json` to expand the swipe deck.
+Edit `data/cards.json` for the swipe deck.

@@ -71,7 +71,7 @@ export function HouseBuilder({ partnerName, initial = {}, onComplete }: Props) {
               className={`rounded-full border px-3 py-1.5 text-sm ${
                 selected === id
                   ? "border-[var(--accent)] bg-[var(--accent)]/20"
-                  : "border-white/15 bg-white/10"
+                  : "border-[var(--border)] bg-[var(--surface)]"
               }`}
             >
               {DIMENSION_LABELS[id]}
@@ -83,7 +83,7 @@ export function HouseBuilder({ partnerName, initial = {}, onComplete }: Props) {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-white/10">
+      <div className="overflow-hidden rounded-3xl border border-[var(--border)]">
         {FLOORS.map((floor, i) => {
           const onFloor = DIMENSION_IDS.filter((id) => placement[id] === floor);
           return (
@@ -91,12 +91,12 @@ export function HouseBuilder({ partnerName, initial = {}, onComplete }: Props) {
               key={floor}
               type="button"
               onClick={() => onFloorActivate(floor)}
-              className={`block w-full min-h-24 border-white/10 bg-white/[0.04] p-3 text-left ${
+              className={`block w-full min-h-24 border-[var(--border)] bg-[var(--surface)] p-3 text-left ${
                 i < FLOORS.length - 1 ? "border-b" : ""
-              } ${selected ? "hover:bg-white/[0.07]" : ""}`}
+              } ${selected ? "hover:bg-[var(--accent-soft)]" : ""}`}
             >
               <div className="mb-2 flex items-baseline justify-between gap-2">
-                <span className="text-xs tracking-wide uppercase text-[var(--accent-soft)]">
+                <span className="text-xs tracking-wide uppercase text-[var(--accent-text)]">
                   Floor {floor}
                 </span>
                 <span className="text-xs text-[var(--ink-muted)]">
@@ -146,7 +146,7 @@ export function HouseBuilder({ partnerName, initial = {}, onComplete }: Props) {
         onClick={() =>
           onComplete(placement as Record<DimensionId, HouseFloor>)
         }
-        className="rounded-full bg-[var(--accent)] px-6 py-3 text-[#1a1410] disabled:opacity-40"
+        className="rounded-full btn-primary px-6 py-3 disabled:opacity-40"
       >
         Finish house
       </button>

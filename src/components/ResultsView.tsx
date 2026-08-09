@@ -74,7 +74,7 @@ export function ResultsView({ report, shareEnabled = false }: Props) {
           ).map(([name, house]) => (
             <div
               key={name}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+              className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4"
             >
               <h3 className="mb-3 text-lg">{name}</h3>
               <div className="space-y-2 text-sm">
@@ -103,7 +103,7 @@ export function ResultsView({ report, shareEnabled = false }: Props) {
         <section className="space-y-4">
           <h2 className="text-2xl">Therapist notes</h2>
           {report.notesA && (
-            <article className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
               <h3 className="text-sm uppercase text-[var(--ink-muted)]">
                 {report.partnerAName}
               </h3>
@@ -111,7 +111,7 @@ export function ResultsView({ report, shareEnabled = false }: Props) {
             </article>
           )}
           {report.notesB && (
-            <article className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
               <h3 className="text-sm uppercase text-[var(--ink-muted)]">
                 {report.partnerBName}
               </h3>
@@ -122,7 +122,7 @@ export function ResultsView({ report, shareEnabled = false }: Props) {
       )}
 
       {shareEnabled && (
-        <section className="space-y-3 border-t border-white/10 pt-8">
+        <section className="space-y-3 border-t border-[var(--border)] pt-8">
           <h2 className="text-2xl">Save & share</h2>
           <p className="text-[var(--ink-muted)]">
             Creates a private link that expires in 7 days.
@@ -132,16 +132,16 @@ export function ResultsView({ report, shareEnabled = false }: Props) {
               type="button"
               disabled={pending}
               onClick={save}
-              className="rounded-full bg-[var(--accent)] px-6 py-3 text-[#1a1410] disabled:opacity-60"
+              className="rounded-full btn-primary px-6 py-3 disabled:opacity-60"
             >
               {pending ? "Saving…" : "Create share link"}
             </button>
           ) : (
-            <p className="break-all rounded-2xl bg-white/5 p-4 text-sm">
+            <p className="break-all rounded-2xl bg-[var(--surface)] p-4 text-sm">
               {shareUrl}
             </p>
           )}
-          {error && <p className="text-sm text-[var(--love)]">{error}</p>}
+          {error && <p className="text-sm font-medium text-[var(--accent-text)]">{error}</p>}
         </section>
       )}
     </div>

@@ -58,9 +58,9 @@ export function PartnerConsolidatedResults({
             return (
               <div
                 key={floor}
-                className="rounded-2xl border border-white/10 bg-white/5 p-3"
+                className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-3"
               >
-                <p className="text-xs tracking-wide uppercase text-[var(--accent-soft)]">
+                <p className="text-xs tracking-wide uppercase text-[var(--accent-text)]">
                   Floor {floor} · {HOUSE_FLOOR_LABELS[floor]}
                 </p>
                 <p className="mt-2 text-sm">
@@ -77,7 +77,7 @@ export function PartnerConsolidatedResults({
       <button
         type="button"
         onClick={onContinue}
-        className="rounded-full bg-[var(--accent)] px-6 py-3 text-[#1a1410]"
+        className="rounded-full btn-primary px-6 py-3"
       >
         Continue to reflections
       </button>
