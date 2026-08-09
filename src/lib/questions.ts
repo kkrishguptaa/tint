@@ -6,7 +6,7 @@ import {
   questions,
   tags,
 } from "@/db/schema";
-import type { Card, DimensionId } from "@/lib/types";
+import type { Answers, Card, DimensionId } from "@/lib/types";
 
 export type QuestionRow = typeof questions.$inferSelect;
 
@@ -72,12 +72,126 @@ export async function getEligibleCardsForClient(
     .map(toCard);
 }
 
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+export function isUuid(value: string) {
+  return UUID_RE.test(value);
+}
+
+/**
+ * Resolve card_order ids that may be either question UUIDs or legacy keys
+ * from the old cards.json seed. Always returns cards keyed by UUID.
+ */
 export async function getCardsByIds(ids: string[]): Promise<Card[]> {
-  if (ids.length === 0) return [];
+  const { cards } = await resolveCardsFromOrder(ids);
+  return cards;
+}
+
+export async function resolveCardsFromOrder(ids: string[]): Promise<{
+  cards: Card[];
+  /** UUID order parallel to `cards` (legacy keys rewritten). */
+  order: string[];
+  /** Maps any input id (uuid or legacy) → question UUID. */
+  idMap: Map<string, string>;
+  changed: boolean;
+}> {
+  if (ids.length === 0) {
+    return { cards: [], order: [], idMap: new Map(), changed: false };
+  }
+
   const db = getDb();
-  const rows = await db.select().from(questions).where(inArray(questions.id, ids));
-  const byId = new Map(rows.map((r) => [r.id, toCard(r)]));
-  return ids.map((id) => byId.get(id)).filter(Boolean) as Card[];
+  const uuids = ids.filter(isUuid);
+  const legacy = ids.filter((id) => !isUuid(id));
+
+  const rows: QuestionRow[] = [];
+  if (uuids.length) {
+    rows.push(
+      ...(await db.select().from(questions).where(inArray(questions.id, uuids))),
+    );
+  }
+  if (legacy.length) {
+    rows.push(
+      ...(await db
+        .select()
+        .from(questions)
+        .where(inArray(questions.legacyKey, legacy))),
+    );
+  }
+
+  const byUuid = new Map(rows.map((r) => [r.id, r]));
+  const byLegacy = new Map(
+    rows
+      .filter((r) => r.legacyKey)
+      .map((r) => [r.legacyKey as string, r]),
+  );
+
+  const idMap = new Map<string, string>();
+  const order: string[] = [];
+  const cards: Card[] = [];
+  let changed = false;
+
+  for (const id of ids) {
+    const row = isUuid(id) ? byUuid.get(id) : byLegacy.get(id);
+    if (!row) continue;
+    if (id !== row.id) changed = true;
+    idMap.set(id, row.id);
+    order.push(row.id);
+    cards.push(toCard(row));
+  }
+
+  return { cards, order, idMap, changed };
+}
+
+export function remapAnswers(
+  answers: Answers,
+  idMap: Map<string, string>,
+): Answers {
+  const next: Answers = {};
+  for (const [key, value] of Object.entries(answers)) {
+    const mapped = idMap.get(key) ?? (isUuid(key) ? key : undefined);
+    if (mapped && value) next[mapped] = value;
+  }
+  return next;
+}
+
+/** Rewrite legacy card_order / answer keys to question UUIDs. */
+export async function normalizeAssessmentDeck(
+  cardOrder: string[],
+  answers: Answers,
+): Promise<{
+  cards: Card[];
+  cardOrder: string[];
+  answers: Answers;
+  changed: boolean;
+  idMap: Map<string, string>;
+}> {
+  const resolved = await resolveCardsFromOrder(cardOrder);
+  const idMap = new Map(resolved.idMap);
+
+  const orphanKeys = Object.keys(answers).filter(
+    (k) => !idMap.has(k) && !isUuid(k),
+  );
+  if (orphanKeys.length) {
+    const extra = await resolveCardsFromOrder(orphanKeys);
+    for (const [k, v] of extra.idMap) idMap.set(k, v);
+  }
+
+  for (const id of cardOrder) {
+    if (isUuid(id) && !idMap.has(id)) idMap.set(id, id);
+  }
+
+  const nextAnswers = remapAnswers(answers, idMap);
+  const changed =
+    resolved.changed || Object.keys(answers).some((k) => !isUuid(k));
+
+  return {
+    cards: resolved.cards,
+    cardOrder: resolved.order,
+    answers: nextAnswers,
+    changed,
+    idMap,
+  };
 }
 
 export async function listQuestionsWithTags(therapistId: string) {

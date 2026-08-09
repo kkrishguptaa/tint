@@ -3,7 +3,10 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { getDb } from "@/db";
 import { assessments, clients, shareLinks } from "@/db/schema";
-import { getCardsByIds } from "@/lib/questions";
+import {
+  normalizeAssessmentDeck,
+  remapAnswers,
+} from "@/lib/questions";
 import { scoreAllDimensions } from "@/lib/scoring";
 import type { Answers, SwipeValue } from "@/lib/types";
 
@@ -19,7 +22,7 @@ async function loadByToken(token: string) {
   if (!link) return null;
   if (link.expiresAt && link.expiresAt.getTime() < Date.now()) return null;
 
-  const [assessment] = await db
+  let [assessment] = await db
     .select()
     .from(assessments)
     .where(eq(assessments.id, link.assessmentId))
@@ -33,8 +36,31 @@ async function loadByToken(token: string) {
     .limit(1);
   if (!client) return null;
 
-  const cards = await getCardsByIds(assessment.cardOrder as string[]);
-  return { link, assessment, client, cards };
+  const normalized = await normalizeAssessmentDeck(
+    assessment.cardOrder as string[],
+    (assessment.answers || {}) as Answers,
+  );
+
+  if (normalized.changed) {
+    const [updated] = await db
+      .update(assessments)
+      .set({
+        cardOrder: normalized.cardOrder,
+        answers: normalized.answers,
+        updatedAt: new Date(),
+      })
+      .where(eq(assessments.id, assessment.id))
+      .returning();
+    assessment = updated;
+  }
+
+  return {
+    link,
+    assessment,
+    client,
+    cards: normalized.cards,
+    idMap: normalized.idMap,
+  };
 }
 
 export async function GET(_request: Request, { params }: Params) {
@@ -101,7 +127,11 @@ export async function PATCH(request: Request, { params }: Params) {
   }
 
   if (parsed.data.answers) {
-    answers = { ...answers, ...(parsed.data.answers as Answers) };
+    const remapped = remapAnswers(
+      parsed.data.answers as Answers,
+      bundle.idMap,
+    );
+    answers = { ...answers, ...remapped };
     scores = scoreAllDimensions(bundle.cards, answers);
     if (order.every((cid) => answers[cid])) status = "review";
   }

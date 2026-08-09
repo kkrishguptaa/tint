@@ -5,8 +5,9 @@ import { getDb } from "@/db";
 import { assessments, clients } from "@/db/schema";
 import { requireTherapist } from "@/lib/auth";
 import {
-  getCardsByIds,
   getEligibleCardsForClient,
+  normalizeAssessmentDeck,
+  remapAnswers,
 } from "@/lib/questions";
 import { scoreAllDimensions } from "@/lib/scoring";
 import { shuffleIds } from "@/lib/shuffle";
@@ -92,10 +93,28 @@ export async function GET(_request: Request, { params }: Params) {
     assessment = updated;
   }
 
-  const order = assessment.cardOrder as string[];
-  const cards = await getCardsByIds(order);
+  const normalized = await normalizeAssessmentDeck(
+    assessment.cardOrder as string[],
+    (assessment.answers || {}) as Answers,
+  );
 
-  return NextResponse.json({ assessment, cards });
+  if (normalized.changed) {
+    const [updated] = await db
+      .update(assessments)
+      .set({
+        cardOrder: normalized.cardOrder,
+        answers: normalized.answers,
+        updatedAt: new Date(),
+      })
+      .where(eq(assessments.id, assessment.id))
+      .returning();
+    assessment = updated;
+  }
+
+  return NextResponse.json({
+    assessment,
+    cards: normalized.cards,
+  });
 }
 
 const patchSchema = z.object({
@@ -135,13 +154,16 @@ export async function PATCH(request: Request, { params }: Params) {
     return NextResponse.json({ error: "Invalid body" }, { status: 400 });
   }
 
-  const order = assessment.cardOrder as string[];
-  let cards = await getCardsByIds(order);
+  const normalized = await normalizeAssessmentDeck(
+    assessment.cardOrder as string[],
+    (assessment.answers || {}) as Answers,
+  );
+  let cards = normalized.cards;
   if (cards.length === 0) {
     cards = await getEligibleCardsForClient(session.therapistId, id);
   }
 
-  let answers = { ...(assessment.answers as Answers) };
+  let answers = { ...normalized.answers };
   let status = assessment.status;
   let house = { ...(assessment.house as Record<string, number> | null) };
   let neglected = [...(assessment.neglected as string[])];
@@ -149,7 +171,7 @@ export async function PATCH(request: Request, { params }: Params) {
   let hopes = [...(assessment.hopes as string[])];
   let scores = assessment.scores as Record<string, { score: number }>;
   let completedAt = assessment.completedAt;
-  let cardOrder = order;
+  let cardOrder = normalized.cardOrder;
 
   if (parsed.data.fillRandom) {
     const values: SwipeValue[] = ["dislike", "like", "love"];
@@ -168,7 +190,11 @@ export async function PATCH(request: Request, { params }: Params) {
   }
 
   if (parsed.data.answers) {
-    answers = { ...answers, ...(parsed.data.answers as Answers) };
+    const remapped = remapAnswers(
+      parsed.data.answers as Answers,
+      normalized.idMap,
+    );
+    answers = { ...answers, ...remapped };
     scores = scoreAllDimensions(cards, answers);
     const done = cardOrder.every((cid) => answers[cid]);
     if (done && status === "cards") status = "review";
