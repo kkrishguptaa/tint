@@ -31,31 +31,6 @@ export type Card = {
 
 export type Answers = Record<string, SwipeValue>;
 
-export type BandTip = {
-  id: string;
-  kind: "band";
-  dimension: DimensionId;
-  bands: [Band, Band];
-  title: string;
-  body: string;
-  priority?: number;
-};
-
-export type OverlapTip = {
-  id: string;
-  kind: "overlap";
-  match: "strong_common" | "common" | "a_only" | "b_only";
-  cardIds?: string[];
-  title: string;
-  body: string;
-  priority?: number;
-};
-
-export type RecommendationCatalog = {
-  bandTips: BandTip[];
-  overlapTips: OverlapTip[];
-};
-
 export type VennSets = {
   strongCommon: string[];
   common: string[];
@@ -71,7 +46,5 @@ export type Report = {
   scoresA: Record<DimensionId, DimensionScore>;
   scoresB: Record<DimensionId, DimensionScore>;
   venn: VennSets;
-  bandTips: BandTip[];
-  overlapTips: OverlapTip[];
   cardTitles: Record<string, string>;
 };

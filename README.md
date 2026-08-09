@@ -1,6 +1,6 @@
 # tint
 
-Couple intimacy map — two partners take turns on one device, swipe a seed deck across ten dimensions, then see dual scales, an intensity-aware overlap map, and recommendations. Finished reports can be saved behind a 7-day share link.
+Couple intimacy map — two partners take turns on one device, swipe a seed deck across ten dimensions, then see dual scales and an intensity-aware Venn of where you overlap. Finished reports can be saved behind a 7-day share link.
 
 ## Spec & plan
 
@@ -23,4 +23,4 @@ npm run build
 
 ## Content
 
-Edit `data/cards.json` and `data/recommendations.json` to expand the deck and tips.
+Edit `data/cards.json` to expand the swipe deck.

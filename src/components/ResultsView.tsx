@@ -59,26 +59,6 @@ export function ResultsView({ report, shareEnabled = false }: Props) {
         cardTitles={report.cardTitles}
       />
 
-      <section className="space-y-4">
-        <h2 className="text-2xl">Recommendations</h2>
-        <div className="space-y-3">
-          {[...report.bandTips, ...report.overlapTips].map((tip) => (
-            <article
-              key={tip.id}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
-            >
-              <h3 className="text-lg">{tip.title}</h3>
-              <p className="mt-2 text-[var(--ink-muted)]">{tip.body}</p>
-            </article>
-          ))}
-          {report.bandTips.length === 0 && report.overlapTips.length === 0 && (
-            <p className="text-[var(--ink-muted)]">
-              No tips matched this round — still a useful snapshot.
-            </p>
-          )}
-        </div>
-      </section>
-
       {shareEnabled && (
         <section className="space-y-3 border-t border-white/10 pt-8">
           <h2 className="text-2xl">Save & share</h2>

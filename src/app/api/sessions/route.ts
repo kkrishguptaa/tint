@@ -27,8 +27,6 @@ const reportSchema = z.object({
     aOnly: z.array(z.string()),
     bOnly: z.array(z.string()),
   }),
-  bandTips: z.array(z.any()),
-  overlapTips: z.array(z.any()),
   cardTitles: z.record(z.string(), z.string()),
 });
 

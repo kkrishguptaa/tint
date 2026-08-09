@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Handoff } from "@/components/Handoff";
 import { ResultsView } from "@/components/ResultsView";
 import { SwipeDeck } from "@/components/SwipeDeck";
-import { getCards, getRecommendationCatalog } from "@/lib/content";
+import { getCards } from "@/lib/content";
 import { buildReport } from "@/lib/report";
 import type { Answers, Report, SwipeValue } from "@/lib/types";
 
@@ -12,7 +12,6 @@ type Phase = "nameA" | "swipeA" | "handoff" | "nameB" | "swipeB" | "results";
 
 export default function PlayPage() {
   const cards = useMemo(() => getCards(), []);
-  const catalog = useMemo(() => getRecommendationCatalog(), []);
 
   const [phase, setPhase] = useState<Phase>("nameA");
   const [nameA, setNameA] = useState("");
@@ -46,7 +45,6 @@ export default function PlayPage() {
       if (hist.length >= cards.length) {
         const built = buildReport({
           cards,
-          catalog,
           partnerAName: nameA,
           partnerBName: nameB,
           answersA,

@@ -20,8 +20,6 @@ function sampleReport(): Report {
     scoresA: scores,
     scoresB: scores,
     venn: { strongCommon: [], common: [], aOnly: [], bOnly: [] },
-    bandTips: [],
-    overlapTips: [],
     cardTitles: {},
   };
 }
