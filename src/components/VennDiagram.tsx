@@ -23,8 +23,8 @@ export function VennDiagram({
       <header className="space-y-2">
         <h2 className="text-2xl">Overlap</h2>
         <p className="text-[var(--ink-muted)]">
-          Shared items are likes you both have. “Very like” marks where you both
-          swiped right.
+          Shared items are likes you both have. “Love” marks where you both
+          swiped up.
         </p>
       </header>
 
@@ -144,7 +144,7 @@ export function VennDiagram({
                   <span>{cardTitles[item.id] ?? item.id}</span>
                   {item.strong && (
                     <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-[10px] font-medium tracking-wide uppercase text-[var(--accent-text)]">
-                      Very like
+                      Love
                     </span>
                   )}
                 </li>

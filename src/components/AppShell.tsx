@@ -25,15 +25,22 @@ export function AppShell({
           <Link href="/clients" className="tracking-[0.2em] uppercase text-[var(--accent-text)]">
             tint
           </Link>
-          <div className="flex items-center gap-4 text-sm">
-            {username && <span className="text-[var(--ink-muted)]">{username}</span>}
+          <div className="flex items-center gap-3 sm:gap-4 text-sm">
+            <Link href="/settings" className="text-[var(--accent-text)]">
+              Settings
+            </Link>
+            {username && (
+              <span className="hidden sm:inline text-[var(--ink-muted)]">
+                {username}
+              </span>
+            )}
             <button type="button" onClick={logout} className="text-[var(--accent-text)]">
               Log out
             </button>
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-5xl px-6 py-10">{children}</main>
+      <main className="mx-auto max-w-5xl px-4 sm:px-6 py-8 sm:py-10">{children}</main>
     </div>
   );
 }

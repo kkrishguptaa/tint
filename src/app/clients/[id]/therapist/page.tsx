@@ -53,7 +53,6 @@ export default function TherapistFormPage() {
   const [neglected, setNeglected] = useState<DimensionId[]>([]);
   const [appreciated, setAppreciated] = useState<DimensionId[]>([]);
   const [hopes, setHopes] = useState<DimensionId[]>([]);
-  const [remarks, setRemarks] = useState("");
   const [ready, setReady] = useState(false);
   const [pending, setPending] = useState(false);
 
@@ -74,7 +73,6 @@ export default function TherapistFormPage() {
       setNeglected((a.assessment.neglected as DimensionId[]) || []);
       setAppreciated((a.assessment.appreciated as DimensionId[]) || []);
       setHopes((a.assessment.hopes as DimensionId[]) || []);
-      setRemarks(a.assessment.remarks || "");
       setReady(true);
     }
     void load();
@@ -89,7 +87,6 @@ export default function TherapistFormPage() {
         neglected,
         appreciated,
         hopes,
-        remarks,
         status: "complete",
       }),
     });
@@ -99,19 +96,19 @@ export default function TherapistFormPage() {
 
   if (!ready) {
     return (
-      <main className="mx-auto max-w-lg px-6 py-16 text-[var(--ink-muted)]">
+      <main className="mx-auto max-w-lg px-4 sm:px-6 py-16 text-[var(--ink-muted)]">
         Loading…
       </main>
     );
   }
 
   return (
-    <main className="mx-auto min-h-dvh max-w-2xl space-y-8 px-6 py-10">
+    <main className="mx-auto min-h-dvh max-w-2xl space-y-8 px-4 sm:px-6 py-8 sm:py-10">
       <header>
         <p className="text-sm uppercase tracking-wide text-[var(--ink-muted)]">
           Therapist form
         </p>
-        <h1 className="mt-2 text-4xl">{name}</h1>
+        <h1 className="mt-2 text-3xl sm:text-4xl">{name}</h1>
       </header>
 
       <DimMultiSelect
@@ -129,17 +126,6 @@ export default function TherapistFormPage() {
         value={hopes}
         onChange={setHopes}
       />
-
-      <label className="block space-y-2">
-        <span className="text-lg">Remarks</span>
-        <textarea
-          value={remarks}
-          onChange={(e) => setRemarks(e.target.value)}
-          rows={6}
-          className="w-full rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3"
-          placeholder="Visible on the client summary when you share the screen"
-        />
-      </label>
 
       <button
         type="button"

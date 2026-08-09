@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { ScaleCompare } from "@/components/ScaleCompare";
 import { VennDiagram } from "@/components/VennDiagram";
-import { DIMENSION_LABELS, getCards } from "@/lib/content";
+import { DIMENSION_LABELS } from "@/lib/content";
 import { buildDimensionVenn } from "@/lib/dimension-venn";
 import { buildVenn } from "@/lib/venn";
 import {
   DIMENSION_IDS,
   HOUSE_FLOOR_LABELS,
   type Answers,
+  type Card,
   type DimensionId,
   type DimensionScore,
   type HouseFloor,
@@ -27,9 +28,10 @@ type Bundle = {
     neglected: string[];
     appreciated: string[];
     hopes: string[];
-    remarks: string;
     status: string;
+    cardOrder: string[];
   };
+  cards: Card[];
 };
 
 const FLOORS: HouseFloor[] = [4, 3, 2, 1];
@@ -40,7 +42,6 @@ export default function CoupleConclusionPage() {
   const [username, setUsername] = useState<string>();
   const [left, setLeft] = useState<Bundle | null>(null);
   const [right, setRight] = useState<Bundle | null>(null);
-  const cards = useMemo(() => getCards(), []);
 
   useEffect(() => {
     async function load() {
@@ -68,8 +69,16 @@ export default function CoupleConclusionPage() {
         router.replace(`/clients/${aId}`);
         return;
       }
-      setLeft({ client: detail.client, assessment: aAssess.assessment });
-      setRight({ client: bDetail.client, assessment: bAssess.assessment });
+      setLeft({
+        client: detail.client,
+        assessment: aAssess.assessment,
+        cards: aAssess.cards || [],
+      });
+      setRight({
+        client: bDetail.client,
+        assessment: bAssess.assessment,
+        cards: bAssess.cards || [],
+      });
     }
     void load();
   }, [aId, router]);
@@ -90,34 +99,21 @@ export default function CoupleConclusionPage() {
   const typeTitles = Object.fromEntries(
     DIMENSION_IDS.map((d) => [d, DIMENSION_LABELS[d]]),
   );
-  const cardVenn = buildVenn(
-    cards,
-    left.assessment.answers,
-    right.assessment.answers,
-  );
+
+  const cardsById = new Map<string, Card>();
+  for (const c of [...left.cards, ...right.cards]) cardsById.set(c.id, c);
+  const allCards = [...cardsById.values()];
 
   return (
     <AppShell username={username}>
       <p className="text-sm text-[var(--ink-muted)]">
         <Link href={`/clients/${aId}`}>← Back</Link>
       </p>
-      <h1 className="mt-2 text-4xl">
+      <h1 className="mt-2 text-3xl sm:text-4xl">
         Conclusion · {nameA} & {nameB}
       </h1>
 
       <div className="mt-10">
-        <VennDiagram
-          partnerAName={nameA}
-          partnerBName={nameB}
-          venn={typeVenn}
-          cardTitles={typeTitles}
-        />
-        <p className="mt-2 text-sm text-[var(--ink-muted)]">
-          Intimacy-type overlap (score ≥ 50). Strong common when both ≥ 67.
-        </p>
-      </div>
-
-      <div className="mt-12">
         <ScaleCompare
           partnerAName={nameA}
           partnerBName={nameB}
@@ -194,19 +190,28 @@ export default function CoupleConclusionPage() {
                   </p>
                 </div>
               ))}
-              <div>
-                <p className="text-xs uppercase text-[var(--ink-muted)]">Remarks</p>
-                <p className="whitespace-pre-wrap text-sm">{a.remarks || "—"}</p>
-              </div>
             </div>
           ))}
         </div>
       </section>
 
+      <div className="mt-12">
+        <VennDiagram
+          partnerAName={nameA}
+          partnerBName={nameB}
+          venn={typeVenn}
+          cardTitles={typeTitles}
+        />
+        <p className="mt-2 text-sm text-[var(--ink-muted)]">
+          Intimacy-type overlap (score ≥ 50). Strong common when both ≥ 67.
+        </p>
+      </div>
+
       <section className="mt-12 space-y-8">
         <h2 className="text-2xl">Prompt Venns by intimacy type</h2>
         {DIMENSION_IDS.map((dim) => {
-          const dimCards = cards.filter((c) => c.dimension === dim);
+          const dimCards = allCards.filter((c) => c.dimension === dim);
+          if (dimCards.length === 0) return null;
           const venn = buildVenn(
             dimCards,
             left.assessment.answers,
@@ -228,11 +233,6 @@ export default function CoupleConclusionPage() {
           );
         })}
       </section>
-
-      <p className="mt-8 text-sm text-[var(--ink-muted)]">
-        Overall card overlap: {cardVenn.strongCommon.length} strong common,{" "}
-        {cardVenn.common.length} common.
-      </p>
     </AppShell>
   );
 }

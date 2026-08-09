@@ -44,22 +44,57 @@ export default async function ClientsPage() {
 
   return (
     <AppShell username={session.username}>
-      <div className="flex items-end justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-4xl">Clients</h1>
-          <p className="mt-2 text-[var(--ink-muted)]">
+          <h1 className="text-3xl sm:text-4xl">Clients</h1>
+          <p className="mt-2 text-sm sm:text-base text-[var(--ink-muted)]">
             Open a client to continue their assessment or view results.
           </p>
         </div>
         <Link
           href="/clients/new"
-          className="rounded-full btn-primary px-5 py-2.5 text-sm"
+          className="self-start rounded-full btn-primary px-5 py-2.5 text-sm"
         >
           New client
         </Link>
       </div>
 
-      <div className="mt-8 overflow-hidden rounded-2xl border border-[var(--border)]">
+      {/* Mobile cards */}
+      <ul className="mt-8 space-y-3 md:hidden">
+        {rows.length === 0 ? (
+          <li className="rounded-2xl border border-[var(--border)] p-6 text-[var(--ink-muted)]">
+            No clients yet.
+          </li>
+        ) : (
+          rows.map((c) => (
+            <li
+              key={c.id}
+              className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4"
+            >
+              <Link
+                href={`/clients/${c.id}`}
+                className="text-lg text-[var(--accent-text)]"
+              >
+                {c.pseudonym}
+              </Link>
+              <p className="mt-1 text-sm text-[var(--ink-muted)]">
+                {REL[c.relationshipType] ?? c.relationshipType}
+                {" · "}
+                {c.linkedClientId
+                  ? `Linked: ${nameById.get(c.linkedClientId) ?? "yes"}`
+                  : "Unlinked"}
+                {" · "}
+                <span className="capitalize">
+                  {latestByClient.get(c.id) ?? "none"}
+                </span>
+              </p>
+            </li>
+          ))
+        )}
+      </ul>
+
+      {/* Desktop table */}
+      <div className="mt-8 hidden overflow-x-auto rounded-2xl border border-[var(--border)] md:block">
         <table className="w-full text-left text-sm">
           <thead className="bg-[var(--surface)] text-[var(--ink-muted)]">
             <tr>

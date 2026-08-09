@@ -34,7 +34,9 @@ Single-context: root `CONTEXT.md` + `docs/adr/`. See `docs/agents/domain.md`.
 - Ten intimacy dimensions (types): physical + sexual, emotional, intellectual, spiritual, experiential, creative, financial, social, conflict, aesthetic — not renamed; “commandments” was a mistaken label for these
 - Questionnaire answers use a 3-way swipe: left = dislike, up = love, right = like; committed swipes exit off-screen (cancel snaps back)
 - Cards shuffled per assessment; Ctrl+Option+K fills remaining cards randomly (therapist debug)
-- Questions are moving to DB (settings-editable) with tags; not static-only JSON long-term
+- Questions live in DB (settings-editable) with tags; untagged questions appear for all clients
+- Assessment status: cards → review → house → outcome → therapist → complete
+- Optional cards-only share link at `/s/[token]`
 - Venn comparison is intensity-aware: common when both at least like an item; strong common when both love; unique when only one likes
 - Openness house: place all 10 dimensions on 4 floors (top = hard to open about, bottom = easy); multiple dimensions per floor allowed
 - Client summary: intimacy-type headings with prompt bubbles under dislike / like / love (SSR; no post-navigation state flicker)

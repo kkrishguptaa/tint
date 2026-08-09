@@ -2,57 +2,21 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { and, desc, eq } from "drizzle-orm";
 import { AppShell } from "@/components/AppShell";
+import { SwipeMap } from "@/components/SwipeMap";
 import { getDb } from "@/db";
 import { assessments, clients } from "@/db/schema";
 import { requireTherapist } from "@/lib/auth";
-import { DIMENSION_LABELS, getCards } from "@/lib/content";
+import { DIMENSION_LABELS } from "@/lib/content";
+import { getCardsByIds } from "@/lib/questions";
 import {
   DIMENSION_IDS,
   HOUSE_FLOOR_LABELS,
   type Answers,
   type DimensionId,
   type HouseFloor,
-  type SwipeValue,
 } from "@/lib/types";
 
 const FLOORS: HouseFloor[] = [4, 3, 2, 1];
-
-const SWIPE_GROUPS: { value: SwipeValue; label: string; bubbleClass: string }[] =
-  [
-    {
-      value: "dislike",
-      label: "Not like",
-      bubbleClass:
-        "bg-[color-mix(in_srgb,var(--dislike)_18%,var(--warm-white))] text-[var(--dislike)] ring-1 ring-[color-mix(in_srgb,var(--dislike)_35%,transparent)]",
-    },
-    {
-      value: "like",
-      label: "Like",
-      bubbleClass:
-        "bg-[color-mix(in_srgb,var(--like)_16%,var(--warm-white))] text-[var(--like)] ring-1 ring-[color-mix(in_srgb,var(--like)_35%,transparent)]",
-    },
-    {
-      value: "love",
-      label: "Very like",
-      bubbleClass:
-        "bg-[color-mix(in_srgb,var(--love)_16%,var(--warm-white))] text-[var(--love)] ring-1 ring-[color-mix(in_srgb,var(--love)_35%,transparent)]",
-    },
-  ];
-
-function promptsBySwipe(dim: DimensionId, answers: Answers) {
-  const groups: Record<SwipeValue, string[]> = {
-    dislike: [],
-    like: [],
-    love: [],
-  };
-  for (const card of getCards()) {
-    if (card.dimension !== dim) continue;
-    const value = answers[card.id] as SwipeValue | undefined;
-    if (!value) continue;
-    groups[value].push(card.prompt);
-  }
-  return groups;
-}
 
 export default async function SummaryPage({
   params,
@@ -90,13 +54,14 @@ export default async function SummaryPage({
   const neglected = assessment.neglected as string[];
   const appreciated = assessment.appreciated as string[];
   const hopes = assessment.hopes as string[];
+  const cards = await getCardsByIds(assessment.cardOrder as string[]);
 
   return (
     <AppShell username={session.username}>
       <p className="text-sm text-[var(--ink-muted)]">
         <Link href={`/clients/${id}`}>← {client.pseudonym}</Link>
       </p>
-      <h1 className="mt-2 text-4xl">Summary · {client.pseudonym}</h1>
+      <h1 className="mt-2 text-3xl sm:text-4xl">Summary · {client.pseudonym}</h1>
 
       <section className="mt-10 space-y-4">
         <h2 className="text-2xl">Openness house</h2>
@@ -151,51 +116,9 @@ export default async function SummaryPage({
         </div>
       </section>
 
-      <section className="mt-10 space-y-8">
-        <div>
-          <h2 className="text-2xl">Swipe map</h2>
-          <p className="mt-1 text-sm text-[var(--ink-muted)]">
-            Prompts grouped by intimacy type and swipe.
-          </p>
-        </div>
-        {DIMENSION_IDS.map((dim) => {
-          const groups = promptsBySwipe(dim, answers);
-          return (
-            <div key={dim} className="space-y-4">
-              <h3 className="text-xl">{DIMENSION_LABELS[dim]}</h3>
-              <div className="grid gap-4 lg:grid-cols-3">
-                {SWIPE_GROUPS.map(({ value, label, bubbleClass }) => (
-                  <div key={value} className="space-y-2">
-                    <p className="text-xs uppercase tracking-wide text-[var(--ink-muted)]">
-                      {label}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {groups[value].length === 0 ? (
-                        <span className="text-sm text-[var(--ink-muted)]">—</span>
-                      ) : (
-                        groups[value].map((prompt) => (
-                          <span
-                            key={prompt}
-                            className={`inline-block max-w-full rounded-full px-3 py-1.5 text-sm leading-snug ${bubbleClass}`}
-                          >
-                            {prompt}
-                          </span>
-                        ))
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </section>
-
-      <section className="mt-10 space-y-3">
-        <h2 className="text-2xl">Therapist remarks</h2>
-        <p className="whitespace-pre-wrap rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
-          {assessment.remarks?.trim() || "No remarks yet."}
-        </p>
+      <section className="mt-10 space-y-4">
+        <h2 className="text-2xl">Swipe map</h2>
+        <SwipeMap cards={cards} answers={answers} />
       </section>
 
       <div className="mt-8 flex flex-wrap gap-3">

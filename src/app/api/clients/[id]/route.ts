@@ -89,18 +89,23 @@ export async function PATCH(request: Request, { params }: Params) {
       .set({ linkedClientId: partner.id })
       .where(eq(clients.id, id));
 
-    const { getCards } = await import("@/lib/content");
-    const cardOrder = [...getCards().map((c) => c.id)].sort(
-      () => Math.random() - 0.5,
+    const { getEligibleCardsForClient } = await import("@/lib/questions");
+    const { shuffleIds } = await import("@/lib/shuffle");
+    const eligible = await getEligibleCardsForClient(
+      session.therapistId,
+      partner.id,
     );
     const { assessments } = await import("@/db/schema");
     await db.insert(assessments).values({
       clientId: partner.id,
       status: "cards",
-      cardOrder,
+      cardOrder: shuffleIds(eligible.map((c) => c.id)),
     });
 
-    return NextResponse.json({ client: { ...client, linkedClientId: partner.id }, linked: partner });
+    return NextResponse.json({
+      client: { ...client, linkedClientId: partner.id },
+      linked: partner,
+    });
   }
 
   if (parsed.data.linkedClientId !== undefined) {

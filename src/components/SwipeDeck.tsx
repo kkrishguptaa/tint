@@ -41,8 +41,8 @@ export function SwipeDeck({
     function onKey(e: KeyboardEvent) {
       if (locked.current) return;
       if (e.key === "ArrowLeft") commit("dislike");
-      if (e.key === "ArrowUp") commit("like");
-      if (e.key === "ArrowRight") commit("love");
+      if (e.key === "ArrowUp") commit("love");
+      if (e.key === "ArrowRight") commit("like");
       if ((e.key === "z" || e.key === "Z") && (e.metaKey || e.ctrlKey) && canUndo) {
         e.preventDefault();
         onUndo();
@@ -56,14 +56,14 @@ export function SwipeDeck({
     const absX = Math.abs(dx);
     const absY = Math.abs(dy);
     if (absX < 60 && absY < 60) return null;
-    if (absY > absX && dy < 0) return "like";
+    if (absY > absX && dy < 0) return "love";
     if (dx < 0) return "dislike";
-    return "love";
+    return "like";
   }
 
   function exitOffset(value: SwipeValue) {
     if (value === "dislike") return { x: -EXIT, y: 0 };
-    if (value === "love") return { x: EXIT, y: 0 };
+    if (value === "like") return { x: EXIT, y: 0 };
     return { x: 0, y: -EXIT };
   }
 
@@ -126,39 +126,39 @@ export function SwipeDeck({
       >
         {hint && (
           <p className="absolute top-4 left-1/2 -translate-x-1/2 text-xs tracking-[0.2em] uppercase text-[var(--accent-text)]">
-            {hint === "dislike" ? "Not for me" : hint === "like" ? "Like" : "Very like"}
+            {hint === "dislike" ? "Dislike" : hint === "like" ? "Like" : "Love"}
           </p>
         )}
-        <h2 className="mt-4 text-3xl text-[var(--ink)]">{card.title}</h2>
-        <p className="mt-4 text-lg leading-relaxed text-[var(--ink-muted)]">
+        <h2 className="mt-4 text-2xl sm:text-3xl text-[var(--ink)]">{card.title}</h2>
+        <p className="mt-4 text-base sm:text-lg leading-relaxed text-[var(--ink-muted)]">
           {card.prompt}
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 text-center text-sm">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center text-sm">
         <button
           type="button"
           disabled={exiting}
-          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-3 py-3 font-medium text-[var(--dislike)] disabled:opacity-40"
+          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-2 sm:px-3 py-3 font-medium text-[var(--dislike)] disabled:opacity-40"
           onClick={() => commit("dislike")}
         >
-          ← Not
+          ← Dislike
         </button>
         <button
           type="button"
           disabled={exiting}
-          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-3 py-3 font-medium text-[var(--like)] disabled:opacity-40"
-          onClick={() => commit("like")}
-        >
-          ↑ Like
-        </button>
-        <button
-          type="button"
-          disabled={exiting}
-          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-3 py-3 font-medium text-[var(--love)] disabled:opacity-40"
+          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-2 sm:px-3 py-3 font-medium text-[var(--love)] disabled:opacity-40"
           onClick={() => commit("love")}
         >
-          Very →
+          ↑ Love
+        </button>
+        <button
+          type="button"
+          disabled={exiting}
+          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-2 sm:px-3 py-3 font-medium text-[var(--like)] disabled:opacity-40"
+          onClick={() => commit("like")}
+        >
+          Like →
         </button>
       </div>
 

@@ -36,7 +36,7 @@ export default function HousePage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ house }),
     });
-    if (res.ok) router.push(`/clients/${id}/therapist`);
+    if (res.ok) router.push(`/clients/${id}/outcome`);
   }
 
   if (!ready) {

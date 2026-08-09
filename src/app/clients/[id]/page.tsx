@@ -57,18 +57,22 @@ export default async function ClientHubPage({
   const continueHref =
     !assessment || status === "cards"
       ? `/clients/${id}/cards`
-      : status === "house"
-        ? `/clients/${id}/house`
-        : status === "therapist"
-          ? `/clients/${id}/therapist`
-          : `/clients/${id}/summary`;
+      : status === "review"
+        ? `/clients/${id}/review`
+        : status === "house"
+          ? `/clients/${id}/house`
+          : status === "outcome"
+            ? `/clients/${id}/outcome`
+            : status === "therapist"
+              ? `/clients/${id}/therapist`
+              : `/clients/${id}/summary`;
 
   return (
     <AppShell username={session.username}>
       <p className="text-sm text-[var(--ink-muted)]">
         <Link href="/clients">Clients</Link> / {client.pseudonym}
       </p>
-      <h1 className="mt-2 text-4xl">{client.pseudonym}</h1>
+      <h1 className="mt-2 text-3xl sm:text-4xl">{client.pseudonym}</h1>
       <p className="mt-2 text-[var(--ink-muted)]">
         Status: <span className="capitalize">{status}</span>
         {linked ? ` · Linked to ${linked.pseudonym}` : ""}

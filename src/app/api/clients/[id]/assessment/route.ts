@@ -4,21 +4,25 @@ import { z } from "zod";
 import { getDb } from "@/db";
 import { assessments, clients } from "@/db/schema";
 import { requireTherapist } from "@/lib/auth";
-import { getCards } from "@/lib/content";
+import {
+  getCardsByIds,
+  getEligibleCardsForClient,
+} from "@/lib/questions";
 import { scoreAllDimensions } from "@/lib/scoring";
+import { shuffleIds } from "@/lib/shuffle";
 import type { Answers, DimensionId, HouseFloor, SwipeValue } from "@/lib/types";
 import { DIMENSION_IDS } from "@/lib/types";
 
 type Params = { params: Promise<{ id: string }> };
 
-function shuffleIds(ids: string[]) {
-  const copy = [...ids];
-  for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
+const STATUSES = [
+  "cards",
+  "review",
+  "house",
+  "outcome",
+  "therapist",
+  "complete",
+] as const;
 
 async function ownedClient(therapistId: string, clientId: string) {
   const db = getDb();
@@ -53,17 +57,45 @@ export async function GET(_request: Request, { params }: Params) {
   }
 
   let assessment = await latestAssessment(id);
+  const db = getDb();
+
   if (!assessment) {
-    const db = getDb();
-    const cardOrder = shuffleIds(getCards().map((c) => c.id));
+    const eligible = await getEligibleCardsForClient(session.therapistId, id);
+    if (eligible.length === 0) {
+      return NextResponse.json(
+        { error: "No eligible questions" },
+        { status: 400 },
+      );
+    }
     const [created] = await db
       .insert(assessments)
-      .values({ clientId: id, status: "cards", cardOrder })
+      .values({
+        clientId: id,
+        status: "cards",
+        cardOrder: shuffleIds(eligible.map((c) => c.id)),
+      })
       .returning();
     assessment = created;
+  } else if (
+    assessment.status === "cards" &&
+    (assessment.cardOrder as string[]).length === 0
+  ) {
+    const eligible = await getEligibleCardsForClient(session.therapistId, id);
+    const [updated] = await db
+      .update(assessments)
+      .set({
+        cardOrder: shuffleIds(eligible.map((c) => c.id)),
+        updatedAt: new Date(),
+      })
+      .where(eq(assessments.id, assessment.id))
+      .returning();
+    assessment = updated;
   }
 
-  return NextResponse.json({ assessment });
+  const order = assessment.cardOrder as string[];
+  const cards = await getCardsByIds(order);
+
+  return NextResponse.json({ assessment, cards });
 }
 
 const patchSchema = z.object({
@@ -77,8 +109,7 @@ const patchSchema = z.object({
   neglected: z.array(z.string()).optional(),
   appreciated: z.array(z.string()).optional(),
   hopes: z.array(z.string()).optional(),
-  remarks: z.string().optional(),
-  status: z.enum(["cards", "house", "therapist", "complete"]).optional(),
+  status: z.enum(STATUSES).optional(),
   fillRandom: z.boolean().optional(),
 });
 
@@ -104,32 +135,43 @@ export async function PATCH(request: Request, { params }: Params) {
     return NextResponse.json({ error: "Invalid body" }, { status: 400 });
   }
 
-  const cards = getCards();
+  const order = assessment.cardOrder as string[];
+  let cards = await getCardsByIds(order);
+  if (cards.length === 0) {
+    cards = await getEligibleCardsForClient(session.therapistId, id);
+  }
+
   let answers = { ...(assessment.answers as Answers) };
   let status = assessment.status;
   let house = { ...(assessment.house as Record<string, number> | null) };
   let neglected = [...(assessment.neglected as string[])];
   let appreciated = [...(assessment.appreciated as string[])];
   let hopes = [...(assessment.hopes as string[])];
-  let remarks = assessment.remarks;
   let scores = assessment.scores as Record<string, { score: number }>;
   let completedAt = assessment.completedAt;
+  let cardOrder = order;
 
   if (parsed.data.fillRandom) {
     const values: SwipeValue[] = ["dislike", "like", "love"];
-    for (const card of cards) {
-      answers[card.id] = values[Math.floor(Math.random() * values.length)]!;
+    const fillCards =
+      cards.length > 0
+        ? cards
+        : await getEligibleCardsForClient(session.therapistId, id);
+    if (cardOrder.length === 0) {
+      cardOrder = shuffleIds(fillCards.map((c) => c.id));
     }
-    scores = scoreAllDimensions(cards, answers);
-    status = "house";
+    for (const cid of cardOrder) {
+      answers[cid] = values[Math.floor(Math.random() * values.length)]!;
+    }
+    scores = scoreAllDimensions(fillCards, answers);
+    status = "review";
   }
 
   if (parsed.data.answers) {
     answers = { ...answers, ...(parsed.data.answers as Answers) };
     scores = scoreAllDimensions(cards, answers);
-    const order = assessment.cardOrder as string[];
-    const done = order.every((cid) => answers[cid]);
-    if (done && status === "cards") status = "house";
+    const done = cardOrder.every((cid) => answers[cid]);
+    if (done && status === "cards") status = "review";
   }
 
   if (parsed.data.house) {
@@ -139,13 +181,12 @@ export async function PATCH(request: Request, { params }: Params) {
       return NextResponse.json({ error: "Place all dimensions" }, { status: 400 });
     }
     house = placement;
-    if (status === "house") status = "therapist";
+    if (status === "house") status = "outcome";
   }
 
   if (parsed.data.neglected) neglected = parsed.data.neglected;
   if (parsed.data.appreciated) appreciated = parsed.data.appreciated;
   if (parsed.data.hopes) hopes = parsed.data.hopes;
-  if (parsed.data.remarks !== undefined) remarks = parsed.data.remarks;
 
   if (parsed.data.status === "complete") {
     status = "complete";
@@ -164,8 +205,8 @@ export async function PATCH(request: Request, { params }: Params) {
       neglected,
       appreciated,
       hopes,
-      remarks,
       status,
+      cardOrder,
       completedAt,
       updatedAt: new Date(),
     })

@@ -1,24 +1,21 @@
 import { NextResponse } from "next/server";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { getDb } from "@/db";
-import { assessments, clients } from "@/db/schema";
+import { assessments, clients, shareLinks, tags } from "@/db/schema";
 import { requireTherapist } from "@/lib/auth";
-import { getCards } from "@/lib/content";
-
-function shuffleIds(ids: string[]) {
-  const copy = [...ids];
-  for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
+import {
+  getEligibleCardsForClient,
+  setClientTags,
+} from "@/lib/questions";
+import { newShareToken, shuffleIds } from "@/lib/shuffle";
 
 const createSchema = z.object({
   pseudonym: z.string().min(1),
   relationshipType: z.enum(["cis_het", "queer", "trans"]),
   linkedClientId: z.string().uuid().optional().nullable(),
+  tagIds: z.array(z.string().uuid()).optional(),
+  createShareLink: z.boolean().optional(),
 });
 
 export async function GET() {
@@ -69,6 +66,18 @@ export async function POST(request: Request) {
   }
 
   const db = getDb();
+
+  if (parsed.data.tagIds?.length) {
+    const owned = await db
+      .select()
+      .from(tags)
+      .where(eq(tags.therapistId, session.therapistId));
+    const ownedIds = new Set(owned.map((t) => t.id));
+    if (parsed.data.tagIds.some((id) => !ownedIds.has(id))) {
+      return NextResponse.json({ error: "Invalid tags" }, { status: 400 });
+    }
+  }
+
   const [created] = await db
     .insert(clients)
     .values({
@@ -83,15 +92,51 @@ export async function POST(request: Request) {
     await db
       .update(clients)
       .set({ linkedClientId: created.id })
-      .where(eq(clients.id, parsed.data.linkedClientId));
+      .where(
+        and(
+          eq(clients.id, parsed.data.linkedClientId),
+          eq(clients.therapistId, session.therapistId),
+        ),
+      );
   }
 
-  const cardOrder = shuffleIds(getCards().map((c) => c.id));
-  await db.insert(assessments).values({
-    clientId: created.id,
-    status: "cards",
-    cardOrder,
-  });
+  if (parsed.data.tagIds?.length) {
+    await setClientTags(created.id, parsed.data.tagIds);
+  }
 
-  return NextResponse.json({ client: created }, { status: 201 });
+  const eligible = await getEligibleCardsForClient(
+    session.therapistId,
+    created.id,
+  );
+  if (eligible.length === 0) {
+    return NextResponse.json(
+      { error: "No eligible questions for this client" },
+      { status: 400 },
+    );
+  }
+
+  const cardOrder = shuffleIds(eligible.map((c) => c.id));
+  const [assessment] = await db
+    .insert(assessments)
+    .values({
+      clientId: created.id,
+      status: "cards",
+      cardOrder,
+    })
+    .returning();
+
+  let shareUrl: string | null = null;
+  if (parsed.data.createShareLink) {
+    const token = newShareToken();
+    await db.insert(shareLinks).values({
+      assessmentId: assessment.id,
+      token,
+    });
+    shareUrl = `/s/${token}`;
+  }
+
+  return NextResponse.json(
+    { client: created, shareUrl, assessmentId: assessment.id },
+    { status: 201 },
+  );
 }

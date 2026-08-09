@@ -4,10 +4,12 @@ Therapist-facing couple intimacy assessment for The Coping Central.
 
 ## Features
 
-- Therapist login
-- Client table with pseudonym, relationship type, optional partner link
-- Per-client flow: shuffled swipe cards → openness house → therapist tags (neglected / appreciated / hopes) + remarks → summary
-- Couple conclusion: intimacy-type Venn, alignment scores, side-by-side houses & tags, per-dimension prompt Venns
+- Therapist login + **Settings** for questions and shared tags
+- Client table with pseudonym, relationship type, tags, optional partner link
+- Optional **shareable swipe link** (cards only) at client creation
+- Flow: swipe → review map → house → house outcome + map → N/A/H tags → summary
+- Swipe: left = dislike, up = love, right = like
+- Couple conclusion: grades /10 → houses → N/A/H → intimacy-type Venn → prompt Venns
 - Debug: **Ctrl+Option+K** on the cards screen fills remaining cards randomly
 
 ## Setup
@@ -19,6 +21,7 @@ cp .env.example .env.local
 npm install
 npm run db:push
 npm run db:seed
+npm run db:seed:questions
 npm run dev
 ```
 
@@ -30,7 +33,9 @@ Default seeded therapist: `utkarsha` (password set via seed script).
 - `npm test` — Vitest
 - `npm run db:push` — push Drizzle schema to Neon
 - `npm run db:seed` — upsert therapist with bcrypt password hash
+- `npm run db:seed:questions` — import `data/cards.json` into DB questions (untagged = all clients)
 
 ## Content
 
-Edit `data/cards.json` for the swipe deck.
+Questions are edited in **Settings** (Neon). `data/cards.json` is the seed source for `db:seed:questions`.
+Untagged questions appear for every client; tagged questions only when the client shares a tag.

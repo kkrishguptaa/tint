@@ -3,13 +3,12 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { SwipeDeck } from "@/components/SwipeDeck";
-import { getCards } from "@/lib/content";
 import type { Answers, Card, SwipeValue } from "@/lib/types";
 
 export default function CardsPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const allCards = useMemo(() => getCards(), []);
+  const [cards, setCards] = useState<Card[]>([]);
   const [order, setOrder] = useState<string[]>([]);
   const [answers, setAnswers] = useState<Answers>({});
   const [history, setHistory] = useState<string[]>([]);
@@ -34,6 +33,7 @@ export default function CardsPage() {
         return;
       }
       setOrder(assessment.cardOrder as string[]);
+      setCards((data.cards as Card[]) || []);
       setAnswers((assessment.answers as Answers) || {});
       const answered = (assessment.cardOrder as string[]).filter(
         (cid: string) => assessment.answers?.[cid],
@@ -57,9 +57,9 @@ export default function CardsPage() {
 
   const cardsById = useMemo(() => {
     const map = new Map<string, Card>();
-    for (const c of allCards) map.set(c.id, c);
+    for (const c of cards) map.set(c.id, c);
     return map;
-  }, [allCards]);
+  }, [cards]);
 
   const index = history.length;
   const card = order[index] ? cardsById.get(order[index]!) : undefined;
@@ -73,8 +73,8 @@ export default function CardsPage() {
       ),
     });
     const data = await res.json();
-    if (data.assessment?.status === "house") {
-      router.push(`/clients/${id}/house`);
+    if (data.assessment?.status === "review") {
+      router.push(`/clients/${id}/review`);
     }
   }
 
@@ -104,14 +104,14 @@ export default function CardsPage() {
 
   if (!ready) {
     return (
-      <main className="mx-auto max-w-lg px-6 py-16 text-[var(--ink-muted)]">
+      <main className="mx-auto max-w-lg px-4 sm:px-6 py-16 text-[var(--ink-muted)]">
         Loading cards…
       </main>
     );
   }
 
   return (
-    <main className="mx-auto min-h-dvh max-w-lg px-6 py-10">
+    <main className="mx-auto min-h-dvh max-w-lg px-4 sm:px-6 py-8 sm:py-10">
       <p className="mb-4 text-xs text-[var(--ink-muted)]">
         Therapist shortcut: Ctrl+Option+K fills remaining cards randomly.
       </p>
